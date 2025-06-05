@@ -169,14 +169,14 @@ margin: 0 auto;
 footer h1 {
 font-size: 2rem;
 margin-bottom: 15px;
-color: black;
+color: white;
 }
 footer p {
 margin: 10px 0;
 font-size: 1rem;
 }
 footer a {
-color: black;
+color: white;
 font-weight: 500;
 transition: color 0.3s ease;
 }
