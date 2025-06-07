@@ -1,94 +1,139 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Toggle mobile menu
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            
+            // Animation du burger menu
+            const bars = this.querySelectorAll('.bar');
+            bars.forEach((bar, index) => {
+                if (navLinks.classList.contains('active')) {
+                    if (index === 0) bar.style.transform = 'rotate(45deg) translate(5px, 5px)';
+                    if (index === 1) bar.style.opacity = '0';
+                    if (index === 2) bar.style.transform = 'rotate(-45deg) translate(7px, -6px)';
+                } else {
+                    bar.style.transform = 'none';
+                    bar.style.opacity = '1';
+                }
+            });
+        });
+    }
 
-  // Menu Hamburger
-  const mobileMenu = document.getElementById('mobile-menu');
-  const navLinks = document.querySelector('.nav-links');
-
-  if (mobileMenu && navLinks) {
-    mobileMenu.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      mobileMenu.classList.toggle('is-active'); // Pour l'animation du bouton lui-même
-    });
-
-    // Fermer le menu si on clique sur un lien (pour les one-page)
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
+    // Fermer le menu mobile quand on clique sur un lien
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
             if (navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
-                mobileMenu.classList.remove('is-active');
+                const bars = mobileMenu.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    bar.style.transform = 'none';
+                    bar.style.opacity = '1';
+                });
             }
         });
     });
-  }
 
-
-  // Active Nav Link highlighting
-  const sections = document.querySelectorAll('section[id]');
-  const navItems = document.querySelectorAll('.nav-links .nav-item');
-
-  function changeNavActiveState() {
-    let currentSectionId = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.clientHeight;
-      if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
-        currentSectionId = section.getAttribute('id');
-      }
-    });
-
+    // Smooth scrolling pour les liens d'ancrage
     navItems.forEach(item => {
-      item.classList.remove('active');
-      if (item.getAttribute('href').substring(item.getAttribute('href').indexOf('#') + 1) === currentSectionId) {
-        item.classList.add('active');
-      }
+        item.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
     });
-    // Cas spécial pour la page d'accueil (index.html sans ancre)
-    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
-        if (!currentSectionId && window.pageYOffset < window.innerHeight / 2) { // Si en haut de la page
-            navItems.forEach(item => item.classList.remove('active'));
-            const homeLink = document.querySelector('.nav-links a[href="index.html"]');
-            if (homeLink) homeLink.classList.add('active');
-        }
+
+    // Mise à jour de l'élément actif dans la navbar
+    function updateActiveNavItem() {
+        const sections = document.querySelectorAll('section, header[id]');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${current}`) {
+                item.classList.add('active');
+            }
+        });
     }
-  }
-  // S'assurer que le lien "Accueil" est actif par défaut sur la page d'accueil
-  if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/')) {
-      const homeLink = document.querySelector('.nav-links a[href="index.html"]');
-      if (homeLink && window.pageYOffset < 100) { // Si on est tout en haut
-          navItems.forEach(item => item.classList.remove('active'));
-          homeLink.classList.add('active');
-      }
-  }
 
+    // Écouter le défilement pour mettre à jour la navbar
+    window.addEventListener('scroll', updateActiveNavItem);
 
-  window.addEventListener('scroll', changeNavActiveState);
-  changeNavActiveState(); // Appel initial pour l'état au chargement
-
-
-  // Animation à l'apparition (Intersection Observer)
-  const animatedElements = document.querySelectorAll('.animate-on-scroll');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Optionnel: arrêter d'observer une fois l'animation jouée
-        // observer.unobserve(entry.target);
-      } else {
-        // Optionnel: retirer la classe si l'élément sort de la vue (pour ré-animer au scroll up)
-        // entry.target.classList.remove('visible');
-      }
+    // Animation d'apparition des sections
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        section.classList.add('fade-in');
     });
-  }, {
-    threshold: 0.1 // Déclenche quand 10% de l'élément est visible
-  });
 
-  animatedElements.forEach(el => observer.observe(el));
+    // Intersection Observer pour les animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
+    // Observer toutes les sections avec fade-in
+    document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+    });
 
-  // Copyright année actuelle
-  const currentYearSpan = document.getElementById('currentYear');
-  if (currentYearSpan) {
-    currentYearSpan.textContent = new Date().getFullYear();
-  }
+    // Animation de typing pour le titre (optionnel)
+    const title = document.querySelector('.hero h1');
+    if (title) {
+        const text = title.textContent;
+        title.textContent = '';
+        title.style.borderRight = '2px solid white';
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < text.length) {
+                title.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            } else {
+                setTimeout(() => {
+                    title.style.borderRight = 'none';
+                }, 1000);
+            }
+        }
+        
+        // Démarrer l'animation après un petit délai
+        setTimeout(typeWriter, 500);
+    }
 
+    // Effet parallax subtil pour le hero
+    window.addEventListener('scroll', function() {
+        const hero = document.querySelector('.hero');
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        
+        if (hero) {
+            hero.style.transform = `translateY(${rate}px)`;
+        }
+    });
 });
