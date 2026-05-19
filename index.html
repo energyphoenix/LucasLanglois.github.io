@@ -1,98 +1,286 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accueil - Lucas Langlois</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="js/script.js" defer></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Lucas Langlois — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#" class="logo">Lucas Langlois</a>
-      <div class="nav-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
-      <ul class="nav-links">
-        <li><a href="index.html" class="nav-item active">Accueil</a></li>
-        <li><a href="#a-propos" class="nav-item">À propos</a></li>
-        <li><a href="#projets" class="nav-item">Mes projets</a></li>
-        <li><a href="#contact" class="nav-item">Contact</a></li>
-      </ul>
+
+<canvas id="snow-canvas"></canvas>
+
+<div class="mountain-bg" id="mountain-bg" aria-hidden="true"></div>
+
+<div class="ski-tracks-layer" id="ski-tracks" aria-hidden="true"></div>
+
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">LL<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#hero">Sommet</a></li>
+    <li><a href="#about">Piste</a></li>
+    <li><a href="#projects">Arrivée</a></li>
+    <li><a href="#contact">Départ</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="summit-deco" aria-hidden="true">
+    <div class="altitude-badge"><i class="fa-solid fa-mountain"></i> 2 450 m</div>
+    <div class="wind-indicator">
+      <i class="fa-solid fa-wind"></i>
+      <span>Vent : 12 km/h</span>
     </div>
-  </nav>
+  </div>
 
-  <header class="hero">
-    <div class="hero-content">
-      <!--
-      avoir une image potable
-      <img src="IMG_20250410_151309.jpg" alt="Photo de Lucas Langlois" class="profile-photo" />-->
-      <h1>Lucas Langlois</h1>
-      <p class="subtitle">Étudiant en BUT Informatique</p>
-    </div>
-  </header>
-
-  <main>
-    <header id="a-propos">
-      <h1>À propos de moi</h1>
-    </header>
-  
-    <section class="Introduction">
-      <h1>Introduction</h1>
-      <p>Je m'appelle Lucas Langlois, étudiant en première année de BUT Informatique à Grenoble. Passionné par le développement et les nouvelles technologies, je suis toujours à la recherche de projets concrets pour mettre en pratique mes compétences. Ce portfolio a pour but de présenter mon parcours, mes réalisations et les domaines de l'informatique qui m'enthousiasment le plus.</p>
-    </section>
-
-    <section class="parcours">
-      <h1>Mon parcours</h1>
-      <p>Après un parcours scolaire classique (maternelle Le Pavillon, élémentaire Les Gonnardières à Champ sur Drac, collège Le Clos Jouvin à Jarrie), j'ai suivi une filière générale au Lycée Les Portes de L'Oisans à Vizille, avec les spécialités Mathématiques, NSI (Numérique et Sciences Informatiques), et Physique-Chimie (abandonnée en 1ère). Je suis actuellement en BUT Informatique à l'IUT2 de Grenoble.</p>
-    </section>
-
-    <section class="passions">
-      <h1>Mes passions</h1>
-      <p>Je suis passionné de sports en tout genres que je pratique très souvent avec mes amis, notamment du ski, du football, du basketball ou encore du volleyball. J'aime aussi beaucoup apprendre à coder tout types de langages et de découvrir les fonctionnalités de chacun d'eux. J'apprécie également jouer aux jeux vidéos, écouter de la musique, ou encore lire des livres en tout genres.</p>
-    </section>
-
-    <section class="compétences">
-      <h1>Mes compétences</h1>
-      <p>Je fais du babysitting auprès de plusieurs familles depuis 2023. Cela me sert de petits revenus et me permet de développer mon sens des responsabilités. Ce n'est pas un travail fatiguant car j'aime bien le contact des enfants, ce qui rend ce travail plutôt agréable.</p>
-      <p>J'ai obtenu le diplôme de jeune officiel UNSS en 2nde qui me permet d'encadrer un groupe de ski sans avoir d'adultes dans le groupe. Ce diplôme m'a appris à bien encadrer un groupe et à être bien attentif au bon fonctionnement de celui-ci.</p>
-      <p>J'ai aidé ma mairie pendant plusieurs journées bénévolement comme par exemple en nettoyant les déchets de mon village ou en aidant aux évènements de celui-ci. Ces activités m'ont permis de mieux comprendre comment fonctionne une mairie et découvrir un petit peu les métiers en son sein.</p>
-      <p>Je sais aussi coder en HTML/CSS, Java, JavaFX, Python et SQL. J'ai acquis ces compétences grâce à mes cours au Lycée et au BUT Informatique.</p>
-    </section>
-
-    <header id="projets">
-      <h1>Mes projets</h1>
-    </header>
-
-    <section class="projects">
-      <div class="project-list">
-        <div class="project">
-          <h3>Projet Web Portfolio</h3>
-          <p>Création de ce portfolio personnel en HTML et CSS pour présenter mon parcours et mes compétences en développement web.</p>
-        </div>
-        <div class="project">
-          <h3>Application Java</h3>
-          <p>Développement d'une application de gestion en Java avec interface graphique JavaFX dans le cadre de mes études.</p>
-        </div>
-        <div class="project">
-          <h3>Base de données SQL</h3>
-          <p>Conception et implémentation d'une base de données relationnelle avec requêtes SQL complexes pour un projet académique.</p>
+  <div class="chairlift-arrive" aria-hidden="true">
+    <div class="chairlift-cable cable-top"></div>
+    <div class="chairlift-chair chair-1">
+      <div class="chair-bar"></div>
+      <div class="chair-seat">
+        <div class="skier-silhouette sitting">
+          <div class="sk-body"></div><div class="sk-head"></div>
+          <div class="sk-skis"></div>
         </div>
       </div>
-    </section>
-  </main>
-
-  <footer id="contact" class="footer">
-    <div class="container">
-      <h2 class="section-title">Me Contacter</h2>
-      <p>N'hésitez pas à me joindre si mon profil vous intéresse ou si vous avez des questions.</p>
-      <ul class="contact-links">
-        <li>Email : <a href="mailto:Lucas.Langlois1@etu.univ-grenoble-alpes.fr">Lucas.Langlois1@etu.univ-grenoble-alpes.fr</a></li>
-        <li>LinkedIn : <a href="https://www.linkedin.com/in/lucas-langlois-08673836a" target="_blank" rel="noopener noreferrer">Mon profil LinkedIn</a></li>      </ul>
     </div>
-  </footer>
+    <div class="chairlift-chair chair-2">
+      <div class="chair-bar"></div>
+      <div class="chair-seat"></div>
+    </div>
+    <div class="chairlift-pylon pylon-hero"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-tag"><i class="fa-solid fa-person-skiing"></i> Disponible pour des opportunités</div>
+      <h1 class="hero-title">
+        <span class="name">Lucas</span>
+        <span class="surname">Langlois</span>
+      </h1>
+      <p class="hero-sub">Étudiant en 2ème année de BUT Informatique à Grenoble — passionné de développement, de nouvelles technologies, et de poudreuse fraîche.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary"><i class="fa-solid fa-person-skiing"></i> Dévaler la piste</a>
+        <a href="#contact" class="btn btn-ghost">Me contacter</a>
+      </div>
+      <div class="hero-scroll">
+        <span>Descendez</span>
+        <div class="scroll-line"></div>
+        <i class="fa-solid fa-chevron-down scroll-chevron"></i>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="profile-wrap">
+        <div class="profile-placeholder">LL</div>
+        <div>
+          <div class="card-name">Lucas Langlois</div>
+          <div class="card-sub">Développeur · Skieur</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Localisation</span>
+        <span class="info-value">Grenoble, France</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Formation</span>
+        <span class="info-value">BUT Informatique — IUT2</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Parcours</span>
+        <span class="info-value">Réalisation d'Applications et Dev Web</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Année</span>
+        <span class="info-value">2ème année</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Statut</span>
+        <span class="info-value"><span class="status-open">Ouvert aux opportunités</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="treeline treeline-hero" aria-hidden="true">
+    <div class="tree t1"></div><div class="tree t2"></div><div class="tree t3"></div>
+    <div class="tree t4"></div><div class="tree t5"></div><div class="tree t6"></div>
+    <div class="tree t7"></div><div class="tree t8"></div><div class="tree t9"></div>
+    <div class="tree t10"></div><div class="tree t11"></div><div class="tree t12"></div>
+    <div class="tree t13"></div><div class="tree t14"></div><div class="tree t15"></div>
+  </div>
+</section>
+
+<section class="section slope-section" id="about">
+
+  <div class="slope-skiers" aria-hidden="true">
+    <div class="slope-skier skier-a">
+      <div class="sk-fig"><div class="sk-body"></div><div class="sk-head"></div><div class="sk-poles"></div><div class="sk-skis"></div></div>
+      <div class="skier-trail"></div>
+    </div>
+    <div class="slope-skier skier-b">
+      <div class="sk-fig"><div class="sk-body"></div><div class="sk-head"></div><div class="sk-skis"></div></div>
+      <div class="skier-trail"></div>
+    </div>
+    <div class="slope-skier skier-c">
+      <div class="sk-fig sk-compact"><div class="sk-body"></div><div class="sk-head"></div><div class="sk-skis"></div></div>
+    </div>
+  </div>
+
+  <div class="piste-markers" aria-hidden="true">
+    <div class="piste-sign sign-blue"><span>Piste Bleue</span></div>
+    <div class="piste-sign sign-red"><span>Piste Rouge</span></div>
+  </div>
+
+  <div class="treeline treeline-left" aria-hidden="true">
+    <div class="tree t1"></div><div class="tree t3"></div><div class="tree t5"></div>
+    <div class="tree t7"></div><div class="tree t2"></div><div class="tree t4"></div>
+    <div class="tree t8"></div><div class="tree t6"></div>
+  </div>
+  <div class="treeline treeline-right" aria-hidden="true">
+    <div class="tree t2"></div><div class="tree t4"></div><div class="tree t6"></div>
+    <div class="tree t1"></div><div class="tree t5"></div><div class="tree t3"></div>
+    <div class="tree t7"></div><div class="tree t9"></div>
+  </div>
+
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="section-num">01</span>
+      <h2 class="section-title">À propos de moi</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal-up">
+        <p class="lead">Je m'appelle <strong>Lucas Langlois</strong>, étudiant en 2ème année de BUT Informatique à l'IUT2 de Grenoble. Spécialisé dans le <strong>parcours A (Réalisation d'applications et Développement Web)</strong>.</p>
+        <p>Après un baccalauréat scientifique (Maths, NSI, Physique-Chimie) au Lycée Les Portes de L'Oisans à Vizille, j'ai rapidement confirmé mon attrait pour l'ingénierie logicielle et le web. Ma formation actuelle me permet d'explorer la création de solutions numériques, de la conception des bases de données jusqu'au développement d'interfaces dynamiques et responsives. J'aime le défi que représente la transformation d'un problème complexe en une application fluide, propre et centrée sur l'utilisateur.</p>
+      </div>
+      <div class="about-text reveal-up">
+        <h3 class="passion-title">Mes centres d'intérêt</h3>
+        <p style="color:rgba(200,222,255,.6); line-height:1.7; font-size:.9rem; margin-bottom: 1.2rem;">Au-delà de mon écran, le sport occupe une place centrale dans mon équilibre. Je me consacre intensément à <strong>la course à pied</strong> et au <strong>volleyball</strong> — des disciplines qui forgent mon esprit d'équipe et ma persévérance.</p>
+        <div class="tags-cloud">
+          <span class="tag"><i class="fa-solid fa-person-running"></i> Course à pied</span>
+          <span class="tag"><i class="fa-solid fa-volleyball"></i> Volleyball</span>
+          <span class="tag"><i class="fa-solid fa-person-skiing"></i> Ski</span>
+          <span class="tag"><i class="fa-solid fa-gamepad"></i> Jeux vidéo</span>
+          <span class="tag"><i class="fa-solid fa-music"></i> Musique</span>
+          <span class="tag"><i class="fa-solid fa-book"></i> Lecture</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-wrapper reveal-up">
+      <div class="carousel-header">
+        <span class="carousel-label">Compétences techniques</span>
+      </div>
+      <div class="carousel-track-wrapper">
+        <div class="carousel-track" id="skills-track"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gate-zone" aria-hidden="true">
+  <div class="gate-pole pole-left"><div class="gate-flag flag-red"></div></div>
+  <div class="gate-pole pole-right"><div class="gate-flag flag-blue"></div></div>
+  <div class="gate-line"></div>
+</div>
+
+<section class="section finish-section" id="projects">
+
+  <div class="finish-banner" aria-hidden="true">
+    <div class="finish-pole fp-left"></div>
+    <div class="finish-banner-cloth">
+      <span>ARRIVÉE</span>
+    </div>
+    <div class="finish-pole fp-right"></div>
+  </div>
+
+  <div class="crowd-layer" aria-hidden="true">
+    <div class="crowd-person cp1"></div><div class="crowd-person cp2"></div>
+    <div class="crowd-person cp3"></div><div class="crowd-person cp4"></div>
+    <div class="crowd-person cp5"></div><div class="crowd-person cp6"></div>
+    <div class="crowd-person cp7"></div><div class="crowd-person cp8"></div>
+    <div class="crowd-person cp9"></div><div class="crowd-person cp10"></div>
+  </div>
+
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Mes projets</h2>
+    </div>
+    <div class="projects-grid reveal-up" id="projects-grid"></div>
+  </div>
+</section>
+
+<footer class="footer" id="contact">
+
+  <div class="chairlift-station" aria-hidden="true">
+    <div class="station-building">
+      <div class="station-roof"></div>
+      <div class="station-body">
+        <div class="station-window sw1"></div>
+        <div class="station-window sw2"></div>
+        <div class="station-sign">TÉLÉSIÈGES</div>
+      </div>
+    </div>
+    <div class="station-cable-left"></div>
+    <div class="station-cable-right"></div>
+    <div class="pylon pylon-1"><div class="pylon-arm"></div></div>
+    <div class="pylon pylon-2"><div class="pylon-arm"></div></div>
+    <div class="pylon pylon-3"><div class="pylon-arm"></div></div>
+    <div class="cable-chair cc1"><div class="chair-bar"></div><div class="chair-seat"></div></div>
+    <div class="cable-chair cc2"><div class="chair-bar"></div><div class="chair-seat"></div></div>
+    <div class="cable-chair cc3">
+      <div class="chair-bar"></div>
+      <div class="chair-seat">
+        <div class="skier-silhouette sitting small">
+          <div class="sk-body"></div><div class="sk-head"></div>
+        </div>
+      </div>
+    </div>
+    <div class="queue-skiers">
+      <div class="queue-skier qs1"><div class="sk-body"></div><div class="sk-head"></div></div>
+      <div class="queue-skier qs2"><div class="sk-body"></div><div class="sk-head"></div></div>
+      <div class="queue-skier qs3"><div class="sk-body"></div><div class="sk-head"></div></div>
+    </div>
+    <div class="altitude-display">
+      <div class="alt-screen">
+        <div class="alt-label">ALTITUDE BASE</div>
+        <div class="alt-value">1 050 m</div>
+        <div class="alt-label" style="margin-top:4px">SOMMET</div>
+        <div class="alt-value">2 450 m</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Me contacter</h2>
+    </div>
+    <p class="footer-sub reveal-up">Le télésiège repart bientôt — n'hésitez pas à me joindre si mon profil vous intéresse.</p>
+    <div class="contact-links reveal-up">
+      <a href="mailto:Lucas.Langlois1@etu.univ-grenoble-alpes.fr" class="contact-pill">
+        <i class="fa-solid fa-envelope"></i> Lucas.Langlois1@etu.univ-grenoble-alpes.fr
+      </a>
+    </div>
+    <div class="footer-bottom reveal-up">
+      <span>Lucas Langlois</span>
+      <span>Grenoble, France · 2 450 m d'idées</span>
+    </div>
+  </div>
+
+  <div class="snow-ground" aria-hidden="true"></div>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
