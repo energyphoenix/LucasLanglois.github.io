@@ -15,6 +15,229 @@
 
 <div class="mountain-bg" id="mountain-bg" aria-hidden="true"></div>
 
+<!-- SVG Layered Mountains -->
+<svg id="mountain-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <!-- Moonlight glow -->
+    <radialGradient id="moonGlow" cx="72%" cy="0%" r="40%">
+      <stop offset="0%" stop-color="#b8d4f8" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#b8d4f8" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Sky aurora tint -->
+    <linearGradient id="skyAurora" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#071830" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#0a2a50" stop-opacity="0.4"/>
+      <stop offset="70%" stop-color="#0d3060" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#071830" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Layer 1 gradient (back, most blue) -->
+    <linearGradient id="mtnGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a3d7a"/>
+      <stop offset="60%" stop-color="#0e2955"/>
+      <stop offset="100%" stop-color="#0a1e40"/>
+    </linearGradient>
+    <!-- Layer 2 gradient -->
+    <linearGradient id="mtnGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#122345"/>
+      <stop offset="50%" stop-color="#0c1c38"/>
+      <stop offset="100%" stop-color="#09162e"/>
+    </linearGradient>
+    <!-- Layer 3 gradient -->
+    <linearGradient id="mtnGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d1c38"/>
+      <stop offset="60%" stop-color="#091428"/>
+      <stop offset="100%" stop-color="#060e1e"/>
+    </linearGradient>
+    <!-- Layer 4 gradient (front, darkest) -->
+    <linearGradient id="mtnGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a1428"/>
+      <stop offset="100%" stop-color="#040c1e"/>
+    </linearGradient>
+    <!-- Snow cap tint -->
+    <linearGradient id="snowTint" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ddeeff" stop-opacity="0.92"/>
+      <stop offset="100%" stop-color="#c8deff" stop-opacity="0.55"/>
+    </linearGradient>
+    <!-- Tree dark fill -->
+    <linearGradient id="treeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0c2218"/>
+      <stop offset="100%" stop-color="#060f0e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Moon -->
+  <circle cx="1040" cy="68" r="28" fill="#c8deff" opacity="0.18"/>
+  <circle cx="1040" cy="68" r="22" fill="#ddeeff" opacity="0.22"/>
+  <!-- Moon glow -->
+  <ellipse cx="1040" cy="68" rx="90" ry="70" fill="url(#moonGlow)"/>
+
+  <!-- Stars sprinkled across sky -->
+  <g opacity="0.7">
+    <circle cx="80" cy="55" r="1" fill="#c8deff" opacity="0.7"/>
+    <circle cx="180" cy="30" r="1.2" fill="#ddeeff" opacity="0.6"/>
+    <circle cx="310" cy="75" r="0.8" fill="#c8deff" opacity="0.5"/>
+    <circle cx="420" cy="22" r="1" fill="#ddeeff" opacity="0.8"/>
+    <circle cx="560" cy="60" r="0.8" fill="#c8deff" opacity="0.5"/>
+    <circle cx="660" cy="38" r="1" fill="#ddeeff" opacity="0.6"/>
+    <circle cx="750" cy="18" r="1.2" fill="#c8deff" opacity="0.7"/>
+    <circle cx="870" cy="48" r="0.8" fill="#ddeeff" opacity="0.5"/>
+    <circle cx="960" cy="25" r="1" fill="#c8deff" opacity="0.6"/>
+    <circle cx="1150" cy="42" r="1" fill="#ddeeff" opacity="0.7"/>
+    <circle cx="1250" cy="18" r="1.2" fill="#c8deff" opacity="0.6"/>
+    <circle cx="1360" cy="55" r="0.8" fill="#ddeeff" opacity="0.5"/>
+    <circle cx="130" cy="100" r="0.8" fill="#c8deff" opacity="0.4"/>
+    <circle cx="490" cy="90" r="1" fill="#ddeeff" opacity="0.45"/>
+    <circle cx="820" cy="80" r="0.9" fill="#c8deff" opacity="0.5"/>
+    <circle cx="1100" cy="95" r="0.8" fill="#ddeeff" opacity="0.4"/>
+    <circle cx="1320" cy="85" r="1" fill="#c8deff" opacity="0.45"/>
+  </g>
+
+  <!-- Sky aurora tint band -->
+  <rect x="0" y="80" width="1440" height="220" fill="url(#skyAurora)"/>
+
+  <!-- ====== LAYER 1: Distant mountain range (most background) ====== -->
+  <!-- Mountain body -->
+  <path d="
+    M-10,600
+    L60,430 L110,470 L170,360 L240,420 L320,290
+    L400,370 L460,310 L540,250 L600,300 L680,230
+    L760,290 L830,240 L900,280 L970,200 L1040,260
+    L1100,220 L1160,270 L1230,195 L1300,240 L1370,210
+    L1440,255 L1450,600 Z
+  " fill="url(#mtnGrad1)"/>
+  <!-- Snow caps layer 1 — bright tops -->
+  <path d="
+    M320,290 L355,320 L370,308 L390,330 L400,370
+    L440,335 L460,310 L500,278 L540,250 L570,272 L600,300
+    L635,268 L680,230 L715,260 L760,290
+    L795,265 L830,240 L858,258 L900,280
+    L935,228 L970,200 L1005,233 L1040,260
+    L1072,238 L1100,220 L1128,244 L1160,270
+    L1196,215 L1230,195 L1260,218 L1300,240
+    L1336,222 L1370,210 L1405,232 L1440,255
+    L1450,270 L1440,265 L1370,218 L1300,248
+    L1230,203 L1160,278 L1100,228 L1040,268
+    L970,208 L900,288 L830,248 L760,298
+    L680,238 L600,308 L540,258 L460,318
+    L400,378 L320,298 Z
+  " fill="url(#snowTint)" opacity="0.45"/>
+
+  <!-- ====== LAYER 2: Mid-range mountains ====== -->
+  <path d="
+    M-10,700
+    L0,560 L80,510 L160,460 L230,510 L310,400
+    L390,460 L450,390 L530,340 L600,400 L680,330
+    L760,380 L840,310 L920,370 L990,290 L1060,350
+    L1140,280 L1210,340 L1290,270 L1360,320 L1440,295
+    L1450,700 Z
+  " fill="url(#mtnGrad2)"/>
+  <!-- Snow caps layer 2 -->
+  <path d="
+    M310,400 L340,425 L360,412 L390,460 L420,430
+    L450,390 L490,362 L530,340 L565,368 L600,400
+    L640,362 L680,330 L718,355 L760,380
+    L800,338 L840,310 L878,336 L920,370
+    L956,315 L990,290 L1025,318 L1060,350
+    L1100,302 L1140,280 L1176,308 L1210,340
+    L1250,292 L1290,270 L1325,295 L1360,320
+    L1400,307 L1440,295 L1450,308
+    L1440,302 L1360,328 L1290,278 L1210,348
+    L1140,288 L1060,358 L990,298 L920,378
+    L840,318 L760,388 L680,338 L600,408
+    L530,348 L450,398 L390,468 L310,408 Z
+  " fill="url(#snowTint)" opacity="0.55"/>
+
+  <!-- ====== LAYER 3: Closer range — more contrast ====== -->
+  <path d="
+    M-10,800
+    L0,680 L70,640 L140,600 L200,640 L280,530
+    L360,590 L430,520 L510,470 L580,530 L660,455
+    L740,510 L820,440 L900,500 L970,420 L1050,490
+    L1130,415 L1200,475 L1280,400 L1360,460 L1440,430
+    L1450,800 Z
+  " fill="url(#mtnGrad3)"/>
+  <!-- Snow on layer 3 -->
+  <path d="
+    M280,530 L308,555 L325,542 L360,590 L395,558
+    L430,520 L468,492 L510,470 L544,498 L580,530
+    L620,482 L660,455 L698,480 L740,510
+    L780,462 L820,440 L858,466 L900,500
+    L936,448 L970,420 L1008,448 L1050,490
+    L1090,440 L1130,415 L1166,442 L1200,475
+    L1240,428 L1280,400 L1320,428 L1360,460
+    L1400,445 L1440,430 L1450,442
+    L1440,438 L1360,468 L1280,408 L1200,483
+    L1130,423 L1050,498 L970,428 L900,508
+    L820,448 L740,518 L660,463 L580,538
+    L510,478 L430,528 L360,598 L280,538 Z
+  " fill="url(#snowTint)" opacity="0.65"/>
+
+  <!-- ====== LAYER 4: Foreground ridgeline + treeline ====== -->
+  <path d="
+    M-10,900
+    L0,800 L60,770 L130,750 L200,770 L270,720
+    L350,760 L420,700 L500,660 L570,700 L650,640
+    L730,685 L810,625 L890,670 L960,610 L1040,660
+    L1120,595 L1190,650 L1270,585 L1350,640 L1440,615
+    L1450,900 Z
+  " fill="url(#mtnGrad4)"/>
+  <!-- Subtle snow ridge on foreground -->
+  <path d="
+    M270,720 L295,742 L312,732 L350,760 L382,738
+    L420,700 L458,672 L500,660 L532,678 L570,700
+    L610,660 L650,640 L688,662 L730,685
+    L770,648 L810,625 L848,648 L890,670
+    L926,622 L960,610 L998,638 L1040,660
+    L1080,612 L1120,595 L1156,620 L1190,650
+    L1230,612 L1270,585 L1308,610 L1350,640
+    L1394,628 L1440,615 L1450,624
+    L1440,622 L1350,648 L1270,592 L1190,658
+    L1120,602 L1040,668 L960,618 L890,678
+    L810,632 L730,692 L650,648 L570,708
+    L500,668 L420,708 L350,768 L270,728 Z
+  " fill="url(#snowTint)" opacity="0.28"/>
+
+  <!-- ====== PINE TREES — foreground ridge ====== -->
+  <!-- Tree macro helper: series of trees along bottom ridge -->
+  <g fill="url(#treeGrad)" opacity="0.9">
+    <!-- cluster left -->
+    <polygon points="62,800 72,760 82,800"/>
+    <polygon points="72,805 84,758 96,805"/>
+    <polygon points="58,810 70,770 82,810"/>
+    <polygon points="88,802 100,762 112,802"/>
+    <!-- cluster centre-left -->
+    <polygon points="280,780 292,738 304,780"/>
+    <polygon points="292,785 305,740 318,785"/>
+    <polygon points="274,788 287,748 300,788"/>
+    <polygon points="306,783 320,742 334,783"/>
+    <!-- cluster centre -->
+    <polygon points="580,730 593,688 606,730"/>
+    <polygon points="594,735 608,690 622,735"/>
+    <polygon points="570,738 584,698 598,738"/>
+    <polygon points="610,732 624,692 638,732"/>
+    <!-- cluster centre-right -->
+    <polygon points="870,700 882,658 894,700"/>
+    <polygon points="882,705 895,660 908,705"/>
+    <polygon points="866,708 879,668 892,708"/>
+    <polygon points="896,703 909,662 922,703"/>
+    <!-- cluster right -->
+    <polygon points="1170,660 1183,618 1196,660"/>
+    <polygon points="1184,665 1197,620 1210,665"/>
+    <polygon points="1162,668 1175,628 1188,668"/>
+    <polygon points="1198,663 1211,622 1224,663"/>
+    <!-- cluster far right -->
+    <polygon points="1360,680 1372,638 1384,680"/>
+    <polygon points="1374,685 1387,640 1400,685"/>
+    <polygon points="1352,688 1365,648 1378,688"/>
+    <polygon points="1388,682 1401,642 1414,682"/>
+  </g>
+
+  <!-- Slight atmospheric haze between layers -->
+  <rect x="0" y="380" width="1440" height="60" fill="#0d2650" opacity="0.18"/>
+  <rect x="0" y="500" width="1440" height="50" fill="#091a38" opacity="0.15"/>
+  <rect x="0" y="620" width="1440" height="50" fill="#060f28" opacity="0.18"/>
+</svg>
+
 <div class="ski-tracks-layer" id="ski-tracks" aria-hidden="true"></div>
 
 <nav id="navbar">
@@ -42,7 +265,8 @@
       <div class="chair-bar"></div>
       <div class="chair-seat">
         <div class="skier-silhouette sitting">
-          <div class="sk-body"></div><div class="sk-head"></div>
+          <div class="sk-head"></div>
+          <div class="sk-body"></div>
           <div class="sk-skis"></div>
         </div>
       </div>
@@ -235,7 +459,7 @@
       <div class="chair-bar"></div>
       <div class="chair-seat">
         <div class="skier-silhouette sitting small">
-          <div class="sk-body"></div><div class="sk-head"></div>
+          <div class="sk-head"></div><div class="sk-body"></div>
         </div>
       </div>
     </div>
@@ -260,11 +484,49 @@
       <h2 class="section-title">Me contacter</h2>
     </div>
     <p class="footer-sub reveal-up">Le télésiège repart bientôt — n'hésitez pas à me joindre si mon profil vous intéresse.</p>
-    <div class="contact-links reveal-up">
-      <a href="mailto:Lucas.Langlois1@etu.univ-grenoble-alpes.fr" class="contact-pill">
-        <i class="fa-solid fa-envelope"></i> Lucas.Langlois1@etu.univ-grenoble-alpes.fr
-      </a>
+
+    <div class="contact-form-wrap reveal-up">
+      <div class="contact-left">
+        <a href="mailto:Lucas.Langlois1@etu.univ-grenoble-alpes.fr" class="contact-pill">
+          <i class="fa-solid fa-envelope"></i> Lucas.Langlois1@etu.univ-grenoble-alpes.fr
+        </a>
+        <div class="contact-hint">
+          <i class="fa-solid fa-mountain-sun"></i>
+          <span>Réponse sous 24–48h depuis le sommet</span>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cf-prenom">Prénom</label>
+            <input type="text" id="cf-prenom" name="prenom" placeholder="Jean" required autocomplete="given-name"/>
+          </div>
+          <div class="form-group">
+            <label for="cf-nom">Nom</label>
+            <input type="text" id="cf-nom" name="nom" placeholder="Dupont" required autocomplete="family-name"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cf-email">Adresse e-mail</label>
+          <input type="email" id="cf-email" name="email" placeholder="jean.dupont@exemple.fr" required autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label for="cf-sujet">Sujet</label>
+          <input type="text" id="cf-sujet" name="sujet" placeholder="Proposition de stage / Question / …" required/>
+        </div>
+        <div class="form-group">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" rows="5" placeholder="Bonjour Lucas, je vous contacte au sujet de…" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary form-submit" id="form-submit">
+          <span class="btn-text"><i class="fa-solid fa-paper-plane"></i> Envoyer</span>
+          <span class="btn-loading" style="display:none"><i class="fa-solid fa-circle-notch fa-spin"></i> Envoi…</span>
+        </button>
+        <div class="form-feedback" id="form-feedback" role="alert"></div>
+      </form>
     </div>
+
     <div class="footer-bottom reveal-up">
       <span>Lucas Langlois</span>
       <span>Grenoble, France · 2 450 m d'idées</span>
@@ -281,6 +543,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
