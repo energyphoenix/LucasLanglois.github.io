@@ -193,6 +193,75 @@ document.addEventListener('keydown', e => {
   if(e.key === 'Escape') closeModal();
 });
 
+
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').style.background = window.scrollY > 60 ? 'rgba(7,18,43,0.95)' : 'rgba(7,18,43,0.7)';
 });
+
+// =============================================
+// EMAILJS — Configuration
+// Remplace les valeurs ci-dessous par les tiennes
+// sur https://dashboard.emailjs.com
+// =============================================
+const EMAILJS_PUBLIC_KEY  = 'jWxSERBCdNxD7BuYF';   // Account > API Keys
+const EMAILJS_SERVICE_ID  = 'service_s3c4nip';   // Email Services
+const EMAILJS_TEMPLATE_ID = 'template_9l25okb';  // Email Templates
+
+emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+const contactForm = document.getElementById('contact-form');
+if(contactForm){
+  contactForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    const btn      = document.getElementById('form-submit');
+    const btnText  = btn.querySelector('.btn-text');
+    const btnLoad  = btn.querySelector('.btn-loading');
+    const feedback = document.getElementById('form-feedback');
+
+    // Validation rapide
+    const fields = ['cf-prenom','cf-nom','cf-email','cf-sujet','cf-message'];
+    let valid = true;
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if(!el.value.trim()){ el.classList.add('input-error'); valid = false; }
+      else el.classList.remove('input-error');
+    });
+    if(!valid){
+      feedback.textContent = 'Merci de remplir tous les champs.';
+      feedback.className = 'form-feedback error';
+      return;
+    }
+
+    // État chargement
+    btn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoad.style.display = 'inline-flex';
+    feedback.className = 'form-feedback';
+    feedback.textContent = '';
+
+    const templateParams = {
+      prenom: document.getElementById('cf-prenom').value.trim(),
+      nom: document.getElementById('cf-nom').value.trim(),
+      email: document.getElementById('cf-email').value.trim(),
+      sujet: document.getElementById('cf-sujet').value.trim(),
+      message: document.getElementById('cf-message').value.trim(),
+      time: new Date().toLocaleString('fr-FR')
+    };
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      feedback.textContent = '✓ Message envoyé ! Je vous réponds très vite.';
+      feedback.className = 'form-feedback success';
+      contactForm.reset();
+    } catch(err) {
+      console.error('EmailJS error:', err);
+      feedback.textContent = '✕ Erreur lors de l\'envoi. Réessayez ou écrivez directement par e-mail.';
+      feedback.className = 'form-feedback error';
+    } finally {
+      btn.disabled = false;
+      btnText.style.display = 'inline-flex';
+      btnLoad.style.display = 'none';
+    }
+  });
+}
