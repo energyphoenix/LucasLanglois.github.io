@@ -497,6 +497,7 @@
       </div>
 
       <form class="contact-form" id="contact-form" novalidate>
+        <!-- Ligne 1 : Prénom / Nom / Email -->
         <div class="form-row">
           <div class="form-group">
             <label for="cf-prenom">Prénom</label>
@@ -506,23 +507,27 @@
             <label for="cf-nom">Nom</label>
             <input type="text" id="cf-nom" name="nom" placeholder="Dupont" required autocomplete="family-name"/>
           </div>
+          <div class="form-group">
+            <label for="cf-email">Adresse e-mail</label>
+            <input type="email" id="cf-email" name="email" placeholder="jean.dupont@exemple.fr" required autocomplete="email"/>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="cf-email">Adresse e-mail</label>
-          <input type="email" id="cf-email" name="email" placeholder="jean.dupont@exemple.fr" required autocomplete="email"/>
-        </div>
+        <!-- Ligne 2 : Sujet -->
         <div class="form-group">
           <label for="cf-sujet">Sujet</label>
           <input type="text" id="cf-sujet" name="sujet" placeholder="Proposition de stage / Question / …" required/>
         </div>
-        <div class="form-group">
-          <label for="cf-message">Message</label>
-          <textarea id="cf-message" name="message" rows="5" placeholder="Bonjour Lucas, je vous contacte au sujet de…" required></textarea>
+        <!-- Ligne 3 : Message + bouton -->
+        <div class="form-bottom-row">
+          <div class="form-group">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="4" placeholder="Bonjour Lucas, je vous contacte au sujet de…" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit" id="form-submit">
+            <span class="btn-text"><i class="fa-solid fa-paper-plane"></i> Envoyer</span>
+            <span class="btn-loading" style="display:none"><i class="fa-solid fa-circle-notch fa-spin"></i> Envoi…</span>
+          </button>
         </div>
-        <button type="submit" class="btn btn-primary form-submit" id="form-submit">
-          <span class="btn-text"><i class="fa-solid fa-paper-plane"></i> Envoyer</span>
-          <span class="btn-loading" style="display:none"><i class="fa-solid fa-circle-notch fa-spin"></i> Envoi…</span>
-        </button>
         <div class="form-feedback" id="form-feedback" role="alert"></div>
       </form>
     </div>
