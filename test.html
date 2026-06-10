@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Lucas Langlois — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sun:#ff6b35;
+  --rose:#e8347a;
+  --violet:#7c3aed;
+  --violet-dark:#3b0764;
+  --gold:#ffd59e;
+  --blush:#ffe4f0;
+  --night:#0f0519;
+  --dusk:#1a0a2e;
+  --mtn:#0d0115;
+  --text:#f5e6ff;
+  --muted:rgba(245,230,255,0.55);
+  --glass:rgba(255,100,150,0.06);
+  --border:rgba(255,150,180,0.15);
+  --accent:var(--sun);
+}
+
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:var(--night);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+}
+
+/* ─── SKY CANVAS ─── */
+#sky-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;
+}
+
+/* ─── PARTICLES ─── */
+#particle-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;opacity:.7;
+}
+
+/* ─── MOUNTAIN SVG ─── */
+#mtn-svg{
+  position:fixed;bottom:0;left:0;width:100%;height:65vh;
+  z-index:2;pointer-events:none;
+}
+
+/* ─── CHAIRLIFT (subtle, right side) ─── */
+.lift-wrap{
+  position:fixed;right:0;top:0;width:80px;height:100vh;
+  pointer-events:none;z-index:3;overflow:hidden;
+}
+.lift-cable{
+  position:absolute;right:40px;top:0;bottom:0;width:1.5px;
+  background:linear-gradient(180deg,transparent,rgba(255,180,120,0.4) 15%,rgba(255,180,120,0.55) 50%,rgba(255,180,120,0.4) 85%,transparent);
+}
+.lift-chair{
+  position:absolute;right:28px;
+  display:flex;flex-direction:column;align-items:center;
+  animation:liftRide 11s linear infinite;
+}
+.lift-chair:nth-child(3){animation-delay:3.5s;}
+.lift-chair:nth-child(4){animation-delay:7s;}
+@keyframes liftRide{
+  0%{top:110vh;opacity:0}
+  5%{opacity:1}
+  90%{opacity:1}
+  100%{top:-80px;opacity:0}
+}
+.lc-bar{width:1.5px;height:16px;background:rgba(255,180,120,0.7);}
+.lc-seat{
+  width:32px;height:11px;border-radius:3px;
+  background:rgba(255,110,50,0.3);border:1px solid rgba(255,140,80,0.5);
+}
+
+/* ─── NAVBAR ─── */
+#navbar{
+  position:fixed;top:0;left:0;width:100%;
+  padding:1.1rem 2.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  z-index:100;
+  transition:background .4s,backdrop-filter .4s;
+}
+#navbar.scrolled{
+  background:rgba(15,5,25,0.85);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.06em;
+  color:var(--text);text-decoration:none;
+  position:relative;
+}
+.nav-logo::after{
+  content:'';position:absolute;bottom:-3px;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,var(--sun),var(--rose));
+  border-radius:2px;
+}
+.nav-links{list-style:none;display:flex;gap:2.2rem;}
+.nav-links a{
+  color:rgba(245,230,255,.6);text-decoration:none;font-size:.82rem;
+  font-family:'Space Mono',monospace;letter-spacing:.05em;
+  transition:color .2s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+  background:linear-gradient(90deg,var(--sun),var(--rose));
+  transition:width .3s;
+}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{width:100%;}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;
+  padding:10rem 2.5rem 5rem;
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.hero-content{
+  display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;
+  max-width:1200px;margin:0 auto;width:100%;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  border:1px solid rgba(232,52,122,0.35);
+  color:var(--rose);padding:.4rem 1rem;border-radius:3px;
+  font-size:.75rem;font-family:'Space Mono',monospace;letter-spacing:.08em;
+  margin-bottom:1.6rem;
+  background:rgba(232,52,122,0.08);
+}
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:7rem;line-height:.9;
+  letter-spacing:.01em;
+  margin-bottom:1.8rem;
+}
+.hero-title .line1{
+  display:block;color:var(--text);
+}
+.hero-title .line2{
+  display:block;
+  background:linear-gradient(90deg,var(--sun),var(--rose) 55%,var(--violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  color:var(--muted);max-width:44ch;line-height:1.75;
+  font-size:.95rem;margin-bottom:2.5rem;
+}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem;}
+
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 1.8rem;border-radius:3px;
+  font-size:.83rem;font-family:'Space Mono',monospace;letter-spacing:.04em;
+  text-decoration:none;cursor:pointer;border:none;
+  transition:all .3s;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--sun),var(--rose));
+  color:#fff;font-weight:700;
+  box-shadow:0 4px 20px rgba(255,107,53,0.35);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,107,53,0.5);}
+.btn-ghost{
+  background:transparent;color:var(--blush);
+  border:1px solid rgba(255,180,200,0.3);
+}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose);transform:translateY(-2px);}
+
+.hero-scroll{
+  display:flex;align-items:center;gap:.6rem;
+  color:rgba(245,230,255,.3);font-size:.72rem;font-family:'Space Mono',monospace;
+}
+.scroll-line{width:32px;height:1px;background:linear-gradient(90deg,rgba(255,107,53,0.5),transparent);}
+.scroll-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--sun);
+  animation:pulseDot 1.5s ease-in-out infinite;
+}
+@keyframes pulseDot{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+
+/* ─── HERO CARD ─── */
+.hero-card{
+  background:rgba(124,58,237,0.08);
+  border:1px solid rgba(232,52,122,0.2);
+  border-radius:12px;
+  padding:1.8rem;
+  backdrop-filter:blur(20px);
+  min-width:250px;
+  position:relative;overflow:hidden;
+}
+.hero-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--rose),var(--sun),transparent);
+}
+.hero-card::after{
+  content:'';position:absolute;inset:0;border-radius:12px;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(232,52,122,0.06),transparent);
+  pointer-events:none;
+}
+.profile-wrap{display:flex;align-items:center;gap:1rem;margin-bottom:1.6rem;}
+.profile-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sun),var(--rose),var(--violet));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#fff;
+  flex-shrink:0;
+  box-shadow:0 0 16px rgba(232,52,122,0.4);
+}
+.card-name{font-weight:500;font-size:.95rem;color:var(--text);}
+.card-role{color:var(--rose);font-size:.72rem;font-family:'Space Mono',monospace;letter-spacing:.04em;}
+.info-row{
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.5rem 0;border-bottom:1px solid rgba(255,150,180,0.08);
+  font-size:.8rem;
+}
+.info-row:last-child{border-bottom:none;}
+.info-label{color:rgba(245,230,255,.35);font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.04em;flex-shrink:0;}
+.info-value{color:var(--text);text-align:right;}
+.status-badge{
+  display:inline-block;
+  background:rgba(255,107,53,0.12);color:var(--gold);
+  border:1px solid rgba(255,107,53,0.25);
+  padding:.15rem .55rem;border-radius:3px;font-size:.68rem;
+  font-family:'Space Mono',monospace;
+}
+
+/* ─── SECTIONS ─── */
+.section{
+  position:relative;z-index:10;
+  padding:7rem 2.5rem;
+}
+.container{max-width:1100px;margin:0 auto;width:100%;}
+
+.section-label{
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:.8rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.section-label::before{
+  content:'';display:block;width:24px;height:1px;
+  background:linear-gradient(90deg,var(--sun),var(--rose));
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.5rem;letter-spacing:.03em;line-height:1;
+  margin-bottom:3rem;
+}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1);}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ─── ABOUT ─── */
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3.5rem;
+}
+.about-lead{
+  font-size:1.05rem;line-height:1.8;color:var(--muted);margin-bottom:1.2rem;
+}
+.about-lead strong{color:var(--text);font-weight:500;}
+.about-body{font-size:.9rem;line-height:1.8;color:rgba(245,230,255,.5);}
+.passion-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.5rem;
+  letter-spacing:.05em;margin-bottom:1rem;
+  background:linear-gradient(90deg,var(--gold),var(--rose));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.tags-cloud{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem;}
+.tag{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);
+  color:rgba(245,230,255,.7);
+  padding:.35rem .8rem;border-radius:3px;font-size:.78rem;
+  transition:all .25s;cursor:default;
+}
+.tag:hover{background:rgba(232,52,122,0.12);border-color:rgba(232,52,122,0.3);color:var(--blush);}
+.tag i{color:var(--rose);font-size:.72rem;}
+
+/* ─── SKILLS CAROUSEL ─── */
+.carousel-outer{overflow:hidden;mask:linear-gradient(90deg,transparent,black 8%,black 92%,transparent);-webkit-mask:linear-gradient(90deg,transparent,black 8%,black 92%,transparent);}
+.carousel-label{
+  font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.12em;
+  color:rgba(245,230,255,.3);margin-bottom:1rem;text-transform:uppercase;
+}
+.carousel-track{
+  display:flex;gap:1rem;
+  animation:scrollLeft 28s linear infinite;
+  width:max-content;
+}
+.carousel-track:hover{animation-play-state:paused;}
+@keyframes scrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.skill-card{
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  background:rgba(124,58,237,0.08);border:1px solid rgba(255,107,53,0.12);
+  border-radius:8px;padding:.9rem 1.4rem;
+  min-width:90px;flex-shrink:0;
+  transition:all .3s;
+}
+.skill-card:hover{
+  background:rgba(232,52,122,0.1);border-color:rgba(232,52,122,0.3);
+  transform:translateY(-3px);box-shadow:0 8px 20px rgba(232,52,122,0.15);
+}
+.skill-icon{font-size:1.4rem;color:var(--sun);}
+.skill-name{font-size:.7rem;font-family:'Space Mono',monospace;color:var(--muted);}
+
+/* ─── PROJECTS ─── */
+.projects-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;
+}
+.project-card{
+  background:var(--glass);
+  border:1px solid rgba(255,107,53,0.12);
+  border-radius:10px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:all .3s;
+  position:relative;
+}
+.project-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(232,52,122,0.04),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.project-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(232,52,122,0.35);
+  box-shadow:0 16px 40px rgba(124,58,237,0.2);
+}
+.project-card:hover::before{opacity:1;}
+.project-thumb{
+  height:140px;overflow:hidden;position:relative;
+}
+.project-thumb-inner{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3rem;color:rgba(255,230,245,.8);
+  position:relative;
+}
+.project-thumb-inner::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40%;
+  background:linear-gradient(to top,var(--night),transparent);
+}
+.project-body{padding:1.2rem;}
+.project-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.75rem;}
+.project-tag{
+  font-size:.65rem;font-family:'Space Mono',monospace;
+  background:rgba(255,107,53,0.1);color:var(--gold);
+  border:1px solid rgba(255,107,53,0.2);
+  padding:.2rem .5rem;border-radius:2px;
+}
+.project-name{
+  font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.04em;
+  margin-bottom:.5rem;color:var(--text);
+}
+.project-desc{font-size:.83rem;color:var(--muted);line-height:1.6;}
+.project-footer{
+  padding:.85rem 1.2rem;border-top:1px solid rgba(255,100,130,0.08);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.75rem;color:rgba(245,230,255,.4);font-family:'Space Mono',monospace;
+}
+.project-arrow{
+  color:var(--rose);font-size:1rem;
+  transition:transform .3s;
+}
+.project-card:hover .project-arrow{transform:translateX(4px);}
+
+/* ─── MODAL ─── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(10,2,20,0.9);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:linear-gradient(135deg,#1a0a2e,#0f0519);
+  border:1px solid rgba(232,52,122,0.2);border-radius:16px;
+  width:90%;max-width:620px;max-height:85vh;overflow-y:auto;
+  position:relative;
+  animation:modalIn .3s cubic-bezier(.22,1,.36,1);
+  scrollbar-width:thin;
+  scrollbar-color:rgba(232,52,122,0.3) transparent;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(24px)}to{opacity:1;transform:none}}
+.modal-close{
+  position:sticky;top:1rem;float:right;margin:1rem 1rem 0;
+  background:rgba(232,52,122,0.1);border:1px solid rgba(232,52,122,0.25);
+  color:var(--rose);width:32px;height:32px;border-radius:50%;
+  cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;z-index:10;
+}
+.modal-close:hover{background:rgba(232,52,122,0.25);transform:rotate(90deg);}
+.modal-header{padding:2rem 2rem 1.5rem;border-bottom:1px solid rgba(255,100,130,0.1);}
+.modal-icon{font-size:2.2rem;margin-bottom:.8rem;
+  background:linear-gradient(135deg,var(--sun),var(--rose));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.04em;margin-bottom:.3rem;}
+.modal-meta{color:rgba(245,230,255,.4);font-size:.75rem;font-family:'Space Mono',monospace;}
+.modal-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem;}
+.modal-body{padding:1.5rem 2rem;}
+.modal-section{margin-bottom:1.5rem;}
+.modal-section h4{
+  font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--rose);margin-bottom:.75rem;
+}
+.modal-section p{color:rgba(245,230,255,.65);line-height:1.8;font-size:.88rem;}
+.modal-section ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.modal-section ul li{
+  color:rgba(245,230,255,.65);font-size:.85rem;padding-left:1.1rem;position:relative;
+}
+.modal-section ul li::before{content:'▸';position:absolute;left:0;color:var(--sun);}
+.modal-links{padding:1.2rem 2rem 1.5rem;border-top:1px solid rgba(255,100,130,0.1);display:flex;gap:.8rem;flex-wrap:wrap;}
+.modal-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.6rem 1.2rem;border-radius:3px;font-size:.78rem;
+  font-family:'Space Mono',monospace;text-decoration:none;transition:all .2s;
+}
+.modal-link.primary{
+  background:linear-gradient(135deg,var(--sun),var(--rose));
+  color:#fff;font-weight:700;
+}
+.modal-link.primary:hover{box-shadow:0 4px 16px rgba(255,107,53,0.4);}
+.modal-link.ghost{border:1px solid rgba(255,150,180,0.2);color:var(--blush);}
+.modal-link.ghost:hover{border-color:var(--rose);color:var(--rose);}
+
+/* ─── FOOTER / CONTACT ─── */
+.footer{
+  position:relative;z-index:10;
+  padding:6rem 2.5rem 3rem;
+  background:linear-gradient(to bottom,transparent,rgba(10,2,20,0.7));
+}
+.footer-intro{
+  color:var(--muted);max-width:48ch;margin-bottom:2.5rem;line-height:1.75;font-size:.95rem;
+}
+.contact-email{
+  display:inline-flex;align-items:center;gap:.8rem;
+  border:1px solid rgba(255,107,53,0.25);
+  padding:.85rem 1.6rem;border-radius:3px;color:var(--gold);
+  text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace;
+  transition:all .3s;margin-bottom:1.5rem;
+  background:rgba(255,107,53,0.07);
+}
+.contact-email:hover{border-color:var(--sun);background:rgba(255,107,53,0.12);transform:translateX(4px);}
+.contact-hint{
+  display:flex;align-items:center;gap:.65rem;
+  color:rgba(245,230,255,.35);font-size:.8rem;
+  font-family:'Space Mono',monospace;margin-bottom:2.5rem;
+}
+.contact-hint i{color:var(--rose);}
+
+.contact-form{
+  display:flex;flex-direction:column;gap:1.2rem;
+  max-width:700px;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem;}
+.form-group{display:flex;flex-direction:column;gap:.4rem;}
+.form-group label{font-size:.68rem;font-family:'Space Mono',monospace;color:rgba(245,230,255,.45);letter-spacing:.08em;text-transform:uppercase;}
+.form-group input,.form-group textarea{
+  background:rgba(124,58,237,0.07);border:1px solid rgba(255,107,53,0.15);border-radius:8px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;
+  padding:.75rem 1rem;outline:none;resize:none;width:100%;
+  transition:border-color .25s,background .25s,box-shadow .25s;
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(245,230,255,.2);}
+.form-group input:focus,.form-group textarea:focus{
+  border-color:rgba(232,52,122,0.45);background:rgba(124,58,237,0.1);
+  box-shadow:0 0 0 3px rgba(232,52,122,0.08);
+}
+.form-group input.error,.form-group textarea.error{
+  border-color:rgba(255,80,80,0.5);box-shadow:0 0 0 3px rgba(255,80,80,0.08);
+}
+.form-bottom{display:grid;grid-template-columns:1fr auto;gap:1.2rem;align-items:end;}
+.form-submit{display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;}
+.btn-text,.btn-loading{display:inline-flex;align-items:center;gap:.5rem;}
+.form-feedback{font-size:.82rem;font-family:'Space Mono',monospace;border-radius:6px;padding:.6rem 1rem;display:none;margin-top:.5rem;}
+.form-feedback.success{display:block;background:rgba(255,180,60,0.1);border:1px solid rgba(255,180,60,0.25);color:var(--gold);}
+.form-feedback.error{display:block;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.2);color:#ff9090;}
+
+.footer-bottom{
+  display:flex;justify-content:space-between;
+  padding-top:2rem;margin-top:3rem;border-top:1px solid rgba(255,100,130,0.1);
+  color:rgba(245,230,255,.25);font-size:.75rem;font-family:'Space Mono',monospace;
+}
+
+/* ─── DIVIDER ─── */
+.sunset-divider{
+  position:relative;z-index:10;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--sun) 20%,var(--rose) 50%,var(--violet) 80%,transparent);
+  opacity:.35;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;gap:2.5rem;}
+  .hero-title{font-size:5rem;}
+  .about-grid{grid-template-columns:1fr;}
+  .projects-grid{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr 1fr;}
+  .form-bottom{grid-template-columns:1fr;}
+  .form-submit{align-self:flex-start;}
+  .section{padding:5rem 1.5rem;}
+}
+@media(max-width:600px){
+  .hero-title{font-size:3.8rem;}
+  .projects-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .nav-links{gap:1.2rem;}
+  .lift-wrap{opacity:.5;}
+}
+</style>
+</head>
+<body>
+
+<!-- SKY GRADIENT CANVAS -->
+<canvas id="sky-canvas"></canvas>
+<!-- PARTICLES (dust/embers) -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- MOUNTAIN SILHOUETTE SVG -->
+<svg id="mtn-svg" viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="mtnFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a0845"/>
+      <stop offset="100%" stop-color="#1a0530"/>
+    </linearGradient>
+    <linearGradient id="mtnMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#180330"/>
+      <stop offset="100%" stop-color="#0f0220"/>
+    </linearGradient>
+    <linearGradient id="mtnFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d0118"/>
+      <stop offset="100%" stop-color="#080010"/>
+    </linearGradient>
+    <!-- Snow caps: warm tint at sunset -->
+    <linearGradient id="snowSunset" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffe4c8" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ff9060" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Far mountains -->
+  <path d="M-10,500 L50,300 L120,350 L200,240 L280,310 L360,190 L440,270 L520,200 L600,260 L680,170 L760,230 L840,160 L920,220 L1000,155 L1080,210 L1160,145 L1240,200 L1320,165 L1400,210 L1450,185 L1450,500 Z" fill="url(#mtnFar)"/>
+  <!-- Snow highlights on far peaks -->
+  <path d="M200,240 L222,265 L240,252 L260,268 L280,310 L300,280 L320,258 L360,190 L382,218 L400,208 L420,228 L440,270 L462,248 L480,235 L520,200 L540,224 L560,215 L580,235 L600,260 L622,238 L640,225 L680,170 L702,198 L720,188 L740,205 L760,230 L780,212 L800,198 L840,160 L862,185 L880,175 L900,192 L920,220 L940,200 L960,185 L1000,155 L1022,180 L1040,170 L1060,188 L1080,210 L1100,192 L1120,178 L1160,145 L1182,172 L1200,162 L1220,180 L1240,200 L1260,182 L1280,170 L1320,165 L1342,182 L1360,175 L1390,195 L1400,210 L1410,198 L1420,188 L1450,185 L1450,195 L1400,218 L1320,172 L1240,208 L1160,152 L1080,218 L1000,162 L920,228 L840,168 L760,238 L680,178 L600,268 L520,208 L440,278 L360,198 L280,318 L200,248 Z" fill="url(#snowSunset)"/>
+
+  <!-- Mid mountains -->
+  <path d="M-10,500 L0,390 L80,350 L160,300 L240,355 L320,265 L400,330 L480,258 L560,310 L640,245 L720,295 L800,228 L880,282 L960,215 L1040,268 L1120,200 L1200,258 L1280,195 L1360,250 L1440,225 L1450,500 Z" fill="url(#mtnMid)"/>
+
+  <!-- Front mountains -->
+  <path d="M-10,500 L0,450 L80,420 L160,390 L240,430 L320,360 L400,420 L480,345 L560,398 L640,330 L720,385 L800,318 L880,372 L960,305 L1040,360 L1120,295 L1200,352 L1280,290 L1360,345 L1440,315 L1450,500 Z" fill="url(#mtnFront)"/>
+
+  <!-- Foreground -->
+  <path d="M-10,500 L1450,500 L1450,460 L1400,455 L1300,462 L1200,450 L1100,458 L1000,448 L900,455 L800,445 L700,452 L600,445 L500,452 L400,448 L300,455 L200,448 L100,455 L0,450 L-10,460 Z" fill="#080010"/>
+</svg>
+
+<!-- SUBTLE CHAIRLIFT (right side) -->
+<div class="lift-wrap" aria-hidden="true">
+  <div class="lift-cable"></div>
+  <div class="lift-chair">
+    <div class="lc-bar"></div>
+    <div class="lc-seat"></div>
+  </div>
+  <div class="lift-chair">
+    <div class="lc-bar"></div>
+    <div class="lc-seat"></div>
+  </div>
+  <div class="lift-chair">
+    <div class="lc-bar"></div>
+    <div class="lc-seat"></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">LL</a>
+  <ul class="nav-links">
+    <li><a href="#hero">Sommet</a></li>
+    <li><a href="#about">Piste</a></li>
+    <li><a href="#projects">Arrivée</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><i class="fa-solid fa-person-skiing"></i> Disponible pour des opportunités</div>
+      <h1 class="hero-title">
+        <span class="line1">Lucas</span>
+        <span class="line2">Langlois</span>
+      </h1>
+      <p class="hero-sub">Étudiant en 2ème année de BUT Informatique à Grenoble — passionné de développement, de nouvelles technologies, et de poudreuse fraîche.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary"><i class="fa-solid fa-person-skiing"></i> Voir mes projets</a>
+        <a href="#contact" class="btn btn-ghost">Me contacter</a>
+      </div>
+      <div class="hero-scroll">
+        <div class="scroll-dot"></div>
+        <div class="scroll-line"></div>
+        <span>Descendez</span>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="profile-wrap">
+        <div class="profile-avatar">LL</div>
+        <div>
+          <div class="card-name">Lucas Langlois</div>
+          <div class="card-role">Développeur · Skieur</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Localisation</span>
+        <span class="info-value">Grenoble, France</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Formation</span>
+        <span class="info-value">BUT Informatique — IUT2</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Parcours</span>
+        <span class="info-value">Réalisation d'Applications</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Année</span>
+        <span class="info-value">2ème année</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Statut</span>
+        <span class="info-value"><span class="status-badge">Ouvert aux opportunités</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sunset-divider"></div>
+
+<!-- ═══════ ABOUT ═══════ -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Qui suis-je ?</div>
+      <h2 class="section-title">À propos de moi</h2>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p class="about-lead">Je m'appelle <strong>Lucas Langlois</strong>, étudiant en 2ème année de BUT Informatique à l'IUT2 de Grenoble. Spécialisé dans le <strong>parcours A (Réalisation d'applications et Développement Web)</strong>.</p>
+        <p class="about-body">Après un baccalauréat scientifique (Maths, NSI, Physique-Chimie) au Lycée Les Portes de L'Oisans à Vizille, j'ai rapidement confirmé mon attrait pour l'ingénierie logicielle et le web. Ma formation actuelle me permet d'explorer la création de solutions numériques, de la conception des bases de données jusqu'au développement d'interfaces dynamiques et responsives. J'aime le défi que représente la transformation d'un problème complexe en une application fluide, propre et centrée sur l'utilisateur.</p>
+      </div>
+      <div class="reveal">
+        <div class="passion-title">Centres d'intérêt</div>
+        <p class="about-body">Au-delà de mon écran, le sport occupe une place centrale dans mon équilibre. Je me consacre intensément à <strong style="color:var(--text)">la course à pied</strong> et au <strong style="color:var(--text)">volleyball</strong> — des disciplines qui forgent mon esprit d'équipe et ma persévérance.</p>
+        <div class="tags-cloud">
+          <span class="tag"><i class="fa-solid fa-person-running"></i> Course à pied</span>
+          <span class="tag"><i class="fa-solid fa-volleyball"></i> Volleyball</span>
+          <span class="tag"><i class="fa-solid fa-person-skiing"></i> Ski</span>
+          <span class="tag"><i class="fa-solid fa-gamepad"></i> Jeux vidéo</span>
+          <span class="tag"><i class="fa-solid fa-music"></i> Musique</span>
+          <span class="tag"><i class="fa-solid fa-book"></i> Lecture</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p class="carousel-label">Compétences techniques</p>
+      <div class="carousel-outer">
+        <div class="carousel-track" id="skills-track"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sunset-divider"></div>
+
+<!-- ═══════ PROJECTS ═══════ -->
+<section class="section" id="projects">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Ce que j'ai construit</div>
+      <h2 class="section-title">Mes projets</h2>
+    </div>
+    <div class="projects-grid reveal" id="projects-grid"></div>
+  </div>
+</section>
+
+<div class="sunset-divider"></div>
+
+<!-- ═══════ FOOTER / CONTACT ═══════ -->
+<footer class="footer" id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Travaillons ensemble</div>
+      <h2 class="section-title">Me contacter</h2>
+    </div>
+    <p class="footer-intro reveal">Le télésiège repart bientôt — n'hésitez pas à me joindre si mon profil vous intéresse.</p>
+
+    <div class="reveal">
+      <a href="mailto:Lucas.Langlois1@etu.univ-grenoble-alpes.fr" class="contact-email">
+        <i class="fa-solid fa-envelope"></i> Lucas.Langlois1@etu.univ-grenoble-alpes.fr
+      </a>
+      <div class="contact-hint">
+        <i class="fa-solid fa-mountain-sun"></i>
+        <span>Réponse sous 24–48h depuis le sommet</span>
+      </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cf-prenom">Prénom</label>
+            <input type="text" id="cf-prenom" name="prenom" placeholder="Jean" required autocomplete="given-name"/>
+          </div>
+          <div class="form-group">
+            <label for="cf-nom">Nom</label>
+            <input type="text" id="cf-nom" name="nom" placeholder="Dupont" required autocomplete="family-name"/>
+          </div>
+          <div class="form-group">
+            <label for="cf-email">Adresse e-mail</label>
+            <input type="email" id="cf-email" name="email" placeholder="jean.dupont@exemple.fr" required autocomplete="email"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cf-sujet">Sujet</label>
+          <input type="text" id="cf-sujet" name="sujet" placeholder="Proposition de stage / Question / …" required/>
+        </div>
+        <div class="form-bottom">
+          <div class="form-group">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="4" placeholder="Bonjour Lucas, je vous contacte au sujet de…" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit" id="form-submit">
+            <span class="btn-text"><i class="fa-solid fa-paper-plane"></i> Envoyer</span>
+            <span class="btn-loading" style="display:none"><i class="fa-solid fa-circle-notch fa-spin"></i> Envoi…</span>
+          </button>
+        </div>
+        <div class="form-feedback" id="form-feedback" role="alert"></div>
+      </form>
+    </div>
+
+    <div class="footer-bottom reveal">
+      <span>Lucas Langlois</span>
+      <span>Grenoble, France · 2 450 m d'idées</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════ MODAL ═══════ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close" aria-label="Fermer">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+// ══════════════════════════════════════
+//  SKY GRADIENT — sunset to dusk on scroll
+// ══════════════════════════════════════
+const skyCanvas = document.getElementById('sky-canvas');
+const skyCtx = skyCanvas.getContext('2d');
+
+function resizeSky(){
+  skyCanvas.width = window.innerWidth;
+  skyCanvas.height = window.innerHeight;
+  drawSky(scrollProgress());
+}
+
+function scrollProgress(){
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  return maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
+}
+
+function lerpColor(a, b, t){
+  const ah=[parseInt(a.slice(1,3),16),parseInt(a.slice(3,5),16),parseInt(a.slice(5,7),16)];
+  const bh=[parseInt(b.slice(1,3),16),parseInt(b.slice(3,5),16),parseInt(b.slice(5,7),16)];
+  return `rgb(${Math.round(ah[0]+(bh[0]-ah[0])*t)},${Math.round(ah[1]+(bh[1]-ah[1])*t)},${Math.round(ah[2]+(bh[2]-ah[2])*t)})`;
+}
+
+// Sunset palette: top → bottom, at various scroll positions
+// [scroll=0] top:#0f0519 bottom:#ff6b35 / [scroll=0.5] orange sky / [scroll=1] deep night
+function drawSky(progress){
+  const W = skyCanvas.width, H = skyCanvas.height;
+  skyCtx.clearRect(0,0,W,H);
+
+  // Top color: deep violet → dusk violet → night
+  const topA = progress < 0.5
+    ? lerpColor('#1a0530','#2a0645', progress*2)
+    : lerpColor('#2a0645','#0f0519', (progress-0.5)*2);
+  // Horizon color: orange sunset → rose → violet
+  const horizA = progress < 0.4
+    ? lerpColor('#ff6b35','#e8347a', progress/0.4)
+    : lerpColor('#e8347a','#7c3aed', (progress-0.4)/0.6);
+  // Low bottom: dark
+  const botA = lerpColor('#0d0118','#080010', progress);
+
+  const grad = skyCtx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0, topA);
+  grad.addColorStop(0.45, horizA);
+  grad.addColorStop(1, botA);
+  skyCtx.fillStyle = grad;
+  skyCtx.fillRect(0,0,W,H);
+
+  // Sun disk — fades and descends as we scroll
+  if(progress < 0.6){
+    const sunAlpha = 1 - progress/0.6;
+    const sunY = H * (0.32 + progress * 0.15);
+    const sunX = W * 0.62;
+    const sunR = 38 * (1 - progress * 0.5);
+    const sunGrad = skyCtx.createRadialGradient(sunX,sunY,0,sunX,sunY,sunR*3);
+    sunGrad.addColorStop(0, `rgba(255,230,120,${0.9*sunAlpha})`);
+    sunGrad.addColorStop(0.2, `rgba(255,130,40,${0.7*sunAlpha})`);
+    sunGrad.addColorStop(0.5, `rgba(232,52,122,${0.35*sunAlpha})`);
+    sunGrad.addColorStop(1, 'rgba(0,0,0,0)');
+    skyCtx.fillStyle = sunGrad;
+    skyCtx.beginPath();
+    skyCtx.arc(sunX,sunY,sunR*3,0,Math.PI*2);
+    skyCtx.fill();
+    // Core
+    skyCtx.beginPath();
+    skyCtx.arc(sunX,sunY,sunR,0,Math.PI*2);
+    skyCtx.fillStyle = `rgba(255,245,200,${sunAlpha})`;
+    skyCtx.fill();
+  }
+
+  // Stars — appear after sunset
+  if(progress > 0.3){
+    const starAlpha = Math.min((progress-0.3)/0.4, 1);
+    const stars = skyCanvas._stars || (skyCanvas._stars = Array.from({length:120},()=>({
+      x:Math.random(),y:Math.random()*0.5,r:Math.random()*1.2+0.3,t:Math.random()*Math.PI*2
+    })));
+    stars.forEach(s=>{
+      const twinkle = 0.5 + 0.5*Math.sin(s.t + Date.now()*0.001*(0.5+Math.random()*0.5));
+      skyCtx.beginPath();
+      skyCtx.arc(s.x*W, s.y*H, s.r, 0, Math.PI*2);
+      skyCtx.fillStyle = `rgba(255,240,220,${starAlpha*twinkle*0.8})`;
+      skyCtx.fill();
+    });
+  }
+}
+
+window.addEventListener('scroll', ()=> drawSky(scrollProgress()));
+window.addEventListener('resize', resizeSky);
+resizeSky();
+
+// Animate star twinkle
+function skyLoop(){drawSky(scrollProgress());requestAnimationFrame(skyLoop);}
+skyLoop();
+
+// ══════════════════════════════════════
+//  PARTICLES — floating embers / dust
+// ══════════════════════════════════════
+const pCanvas = document.getElementById('particle-canvas');
+const pCtx = pCanvas.getContext('2d');
+let PW, PH, particles = [];
+
+function resizeP(){PW=pCanvas.width=window.innerWidth;PH=pCanvas.height=window.innerHeight;}
+function makeParticle(){
+  return{
+    x:Math.random()*PW,
+    y:PH+10,
+    r:Math.random()*2+0.5,
+    speed:Math.random()*0.6+0.2,
+    drift:Math.random()*0.6-0.3,
+    alpha:Math.random()*0.5+0.1,
+    hue:Math.random()<0.5 ? 'rgba(255,130,60,' : 'rgba(232,100,180,'
+  };
+}
+function initParticles(){
+  resizeP();
+  particles=[];
+  for(let i=0;i<60;i++){
+    const p=makeParticle();
+    p.y=Math.random()*PH;
+    particles.push(p);
+  }
+}
+function animParticles(){
+  pCtx.clearRect(0,0,PW,PH);
+  particles.forEach(p=>{
+    pCtx.beginPath();
+    pCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    pCtx.fillStyle=`${p.hue}${p.alpha})`;
+    pCtx.fill();
+    p.y-=p.speed;
+    p.x+=p.drift;
+    p.alpha-=0.001;
+    if(p.y<-10||p.alpha<=0){Object.assign(p,makeParticle());}
+    if(p.x>PW)p.x=0;if(p.x<0)p.x=PW;
+  });
+  requestAnimationFrame(animParticles);
+}
+initParticles();animParticles();
+window.addEventListener('resize',initParticles);
+
+// ══════════════════════════════════════
+//  REVEAL ON SCROLL
+// ══════════════════════════════════════
+const revealObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// ══════════════════════════════════════
+//  NAVBAR
+// ══════════════════════════════════════
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ══════════════════════════════════════
+//  SKILLS
+// ══════════════════════════════════════
+const skills = [
+  {icon:'fa-brands fa-python',name:'Python'},
+  {icon:'fa-solid fa-cubes',name:'Django'},
+  {icon:'fa-solid fa-flask',name:'Flask'},
+  {icon:'fa-brands fa-symfony',name:'Symfony'},
+  {icon:'fa-brands fa-android',name:'Android'},
+  {icon:'fa-solid fa-code',name:'C++'},
+  {icon:'fa-brands fa-java',name:'Java'},
+  {icon:'fa-brands fa-html5',name:'HTML/CSS'},
+  {icon:'fa-brands fa-js',name:'JavaScript'},
+  {icon:'fa-solid fa-database',name:'SQL'},
+  {icon:'fa-brands fa-linux',name:'Linux'},
+  {icon:'fa-brands fa-git-alt',name:'Git'},
+  {icon:'fa-solid fa-network-wired',name:'Réseaux'}
+];
+const track = document.getElementById('skills-track');
+[...skills,...skills].forEach(s=>{
+  const c=document.createElement('div');
+  c.className='skill-card';
+  c.innerHTML=`<div class="skill-icon"><i class="${s.icon}"></i></div><div class="skill-name">${s.name}</div>`;
+  track.appendChild(c);
+});
+
+// ══════════════════════════════════════
+//  PROJECTS
+// ══════════════════════════════════════
+const projects = [
+  {
+    id:0,icon:'fa-solid fa-people-arrows',name:"Entour'âge",
+    bg:'linear-gradient(135deg,#2a0838,#8b1a4a)',
+    tags:['Python','Flask','HTML','CSS'],
+    desc:'Application Web complète avec backend Python/Flask et frontend HTML/CSS.',
+    details:"Dans le cadre de ma formation au Département Informatique de l'IUT2 (UGA), j'ai participé au développement d'une application Web nommée Entour'âge. J'ai travaillé sur la conception de l'architecture serveur en utilisant le framework Python Flask, ainsi que sur l'intégration de l'interface utilisateur en HTML et CSS pour offrir une navigation fluide.",
+    features:['Développement backend Python (Flask)','Intégration frontend (HTML/CSS)','Architecture MVC','Gestion du routage et des requêtes Web'],
+    role:'Développeur Full-stack',duration:'2025 – 2026',
+    links:[{label:'GitHub',url:'#',type:'primary'}]
+  },
+  {
+    id:1,icon:'fa-solid fa-database',name:'Projet Marianne',
+    bg:'linear-gradient(135deg,#1a0a3a,#5b2d8c)',
+    tags:['Java','SQL','GitHub'],
+    desc:'Application de gestion en Java connectée à une base de données SQL.',
+    details:"Création d'une application de gestion complète. Ma mission principale a consisté à concevoir et mettre en place la liaison robuste entre l'interface graphique et la base de données relationnelle. J'ai également joué un rôle central dans l'organisation du travail d'équipe et le suivi global du projet grâce aux outils de versioning.",
+    features:["Développement logique en Java","Liaison Interface / Base de données SQL","Gestion de projet en équipe","Versioning et suivi sur GitHub"],
+    role:'Développeur Java',duration:'Févr. – Juin 2025',
+    links:[{label:'GitHub',url:'#',type:'primary'}]
+  },
+  {
+    id:2,icon:'fa-solid fa-pen-nib',name:'Refonte Sopra Steria',
+    bg:'linear-gradient(135deg,#1a0830,#a02060)',
+    tags:['HTML','CSS','UI/UX'],
+    desc:"Refonte front-end d'un site web pour faciliter la recherche de stages.",
+    details:"Projet centré sur l'amélioration de l'expérience utilisateur. J'ai réalisé la refonte complète du front-end d'un site web lié à Sopra Steria. L'objectif était de moderniser l'ergonomie visuelle et structurelle pour rendre la recherche et la consultation d'offres de stages beaucoup plus intuitives et accessibles.",
+    features:['Intégration HTML/CSS','Refonte ergonomique et UI/UX','Design Responsive','Optimisation du parcours utilisateur'],
+    role:'Développeur Front-end',duration:'Novembre 2024',
+    links:[{label:'Voir la maquette',url:'#',type:'ghost'}]
+  }
+];
+
+const grid = document.getElementById('projects-grid');
+projects.forEach(p=>{
+  const card=document.createElement('div');
+  card.className='project-card';
+  card.innerHTML=`
+    <div class="project-thumb">
+      <div class="project-thumb-inner" style="background:${p.bg}">
+        <i class="${p.icon}"></i>
+      </div>
+    </div>
+    <div class="project-body">
+      <div class="project-tags">${p.tags.map(t=>`<span class="project-tag">${t}</span>`).join('')}</div>
+      <div class="project-name">${p.name}</div>
+      <div class="project-desc">${p.desc}</div>
+    </div>
+    <div class="project-footer">
+      <span>${p.role}</span>
+      <span class="project-arrow">→</span>
+    </div>`;
+  card.addEventListener('click',()=>openModal(p));
+  grid.appendChild(card);
+});
+
+function openModal(p){
+  const content=document.getElementById('modal-content');
+  content.innerHTML=`
+    <div class="modal-header">
+      <div class="modal-icon"><i class="${p.icon}"></i></div>
+      <div class="modal-title">${p.name}</div>
+      <div class="modal-meta">${p.role} · ${p.duration}</div>
+      <div class="modal-tags">${p.tags.map(t=>`<span class="project-tag">${t}</span>`).join('')}</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section"><h4>Description</h4><p>${p.details}</p></div>
+      <div class="modal-section"><h4>Fonctionnalités</h4><ul>${p.features.map(f=>`<li>${f}</li>`).join('')}</ul></div>
+    </div>
+    <div class="modal-links">${p.links.map(l=>`<a href="${l.url}" class="modal-link ${l.type}">${l.label}</a>`).join('')}</div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('modal-close').addEventListener('click',closeModal);
+document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// ══════════════════════════════════════
+//  EMAILJS
+// ══════════════════════════════════════
+const EMAILJS_PUBLIC_KEY  = 'jWxSERBCdNxD7BuYF';
+const EMAILJS_SERVICE_ID  = 'service_s3c4nip';
+const EMAILJS_TEMPLATE_ID = 'template_9l25okb';
+emailjs.init({publicKey:EMAILJS_PUBLIC_KEY});
+
+const contactForm = document.getElementById('contact-form');
+if(contactForm){
+  contactForm.addEventListener('submit',async function(e){
+    e.preventDefault();
+    const btn=document.getElementById('form-submit');
+    const btnText=btn.querySelector('.btn-text');
+    const btnLoad=btn.querySelector('.btn-loading');
+    const feedback=document.getElementById('form-feedback');
+    const fields=['cf-prenom','cf-nom','cf-email','cf-sujet','cf-message'];
+    let valid=true;
+    fields.forEach(id=>{
+      const el=document.getElementById(id);
+      if(!el.value.trim()){el.classList.add('error');valid=false;}
+      else el.classList.remove('error');
+    });
+    if(!valid){feedback.textContent='Merci de remplir tous les champs.';feedback.className='form-feedback error';return;}
+    btn.disabled=true;btnText.style.display='none';btnLoad.style.display='inline-flex';
+    feedback.className='form-feedback';feedback.textContent='';
+    const templateParams={
+      prenom:document.getElementById('cf-prenom').value.trim(),
+      nom:document.getElementById('cf-nom').value.trim(),
+      email:document.getElementById('cf-email').value.trim(),
+      sujet:document.getElementById('cf-sujet').value.trim(),
+      message:document.getElementById('cf-message').value.trim(),
+      time:new Date().toLocaleString('fr-FR')
+    };
+    try{
+      await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,templateParams);
+      feedback.textContent='✓ Message envoyé ! Je vous réponds très vite.';
+      feedback.className='form-feedback success';
+      contactForm.reset();
+    }catch(err){
+      console.error('EmailJS error:',err);
+      feedback.textContent="✕ Erreur lors de l'envoi. Réessayez ou écrivez directement par e-mail.";
+      feedback.className='form-feedback error';
+    }finally{
+      btn.disabled=false;btnText.style.display='inline-flex';btnLoad.style.display='none';
+    }
+  });
+}
+</script>
+</body>
+</html>
