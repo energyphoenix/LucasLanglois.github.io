@@ -1,1221 +1,594 @@
+/* ═══════════════════════════════════════════
+   style.css — Styles communs, indépendants du thème
+   ═══════════════════════════════════════════ */
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --snow:#f0f4ff;
-  --ice:#c8deff;
-  --deep:#07122b;
-  --navy:#0d1f4a;
-  --slope:#e8f2ff;
-  --slope-shadow:#b8d0f0;
-  --accent:#00c6ff;
-  --accent2:#ff4747;
-  --gold:#ffd166;
-  --pine:#1a4a2e;
-  --pine-dark:#0e2e1c;
-  --glass:rgba(255,255,255,0.07);
-  --border:rgba(200,222,255,0.15);
-}
 
 html{scroll-behavior:smooth;font-size:16px}
 body{
-  background:var(--deep);
-  color:var(--snow);
+  color:var(--text);
   font-family:'DM Sans',sans-serif;
   overflow-x:hidden;
-  position:relative;
+  background:var(--bg-body);
+  transition:background .6s, color .6s;
 }
 
-/* =============================================
-   AMBIENT SNOW CANVAS
-============================================= */
-#snow-canvas{
+/* ─── CANVAS & FIXED LAYERS ─── */
+#sky-canvas{
   position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:1;opacity:.55;
+  pointer-events:none;z-index:0;
+  transition:opacity .5s;
+}
+#particle-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;opacity:.7;
+}
+#mtn-svg{
+  position:fixed;bottom:0;left:0;width:100%;height:65vh;
+  z-index:2;pointer-events:none;
 }
 
-/* =============================================
-   MOUNTAIN BACKGROUND — SVG layered mountains
-============================================= */
-.mountain-bg{
-  position:fixed;
-  top:0;left:0;width:100%;height:100%;
-  z-index:0;
-  pointer-events:none;
-  /* Deep night sky gradient */
-  background:
-    linear-gradient(
-      to bottom,
-      #020a18 0%,
-      #04102a 18%,
-      #071830 35%,
-      #0a1e3a 55%,
-      #071228 80%,
-      #040c1e 100%
-    );
+/* ─── THEME SWITCHER (dans la navbar) ─── */
+#theme-switcher{
+  display:flex;align-items:center;gap:0;
+  background:var(--switcher-bg);
+  border:1px solid var(--switcher-border);
+  border-radius:40px;
+  padding:4px;
+  backdrop-filter:blur(16px);
+  box-shadow:0 2px 16px var(--switcher-shadow);
+  transition:background .4s, border-color .4s, box-shadow .4s;
 }
-
-/* SVG mountains sit on top of the sky */
-.mountain-bg::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  /* Subtle moonlight glow near horizon */
-  background:
-    radial-gradient(
-      ellipse 60% 25% at 72% 38%,
-      rgba(160,200,255,0.06) 0%,
-      transparent 70%
-    );
+.theme-btn{
+  display:flex;align-items:center;gap:.42rem;
+  padding:.4rem 1rem;border-radius:32px;
+  font-size:.7rem;font-family:'Space Mono',monospace;letter-spacing:.06em;
+  background:transparent;border:none;cursor:pointer;
+  color:var(--switcher-muted);
+  transition:all .3s;
+  white-space:nowrap;
+  line-height:1;
 }
-
-/* Subtle diagonal slope lines */
-.mountain-bg::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  background-image:
-    repeating-linear-gradient(
-      168deg,
-      transparent,
-      transparent 80px,
-      rgba(200,222,255,0.018) 80px,
-      rgba(200,222,255,0.018) 81px
-    );
+.theme-btn i{font-size:.85rem;transition:transform .3s;}
+.theme-btn:not(.active):hover i{transform:scale(1.2);}
+.theme-btn.active{
+  background:var(--switcher-active-bg);
+  color:var(--switcher-active-text);
+  box-shadow:0 2px 12px var(--switcher-active-shadow);
 }
+.theme-btn:not(.active):hover{color:var(--switcher-hover);}
+.theme-divider{width:1px;height:14px;background:var(--switcher-border);margin:0 2px;opacity:.6;}
 
-/* SVG mountain layers */
-#mountain-svg{
-  position:fixed;
-  top:0;left:0;width:100%;height:100%;
-  z-index:0;
-  pointer-events:none;
-  overflow:visible;
+/* ─── NAVBAR ─── */
+#navbar{
+  position:fixed;top:0;left:0;width:100%;
+  padding:1rem 2.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:1.5rem;
+  z-index:100;
+  transition:background .4s,backdrop-filter .4s,border-color .4s,padding .4s;
 }
-
-/* =============================================
-   SKI TRACKS LAYER (parallax)
-============================================= */
-.ski-tracks-layer{
-  position:fixed;
-  top:0;left:0;width:100%;height:100%;
-  z-index:0;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-/* =============================================
-   NAVBAR
-============================================= */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.2rem 3rem;
-  background:rgba(7,18,43,0.7);
+#navbar.scrolled{
+  background:var(--navbar-scrolled-bg);
   backdrop-filter:blur(18px);
   border-bottom:1px solid var(--border);
-  transition:all .3s;
+  padding:.75rem 2.5rem;
 }
-#navbar{transition:background .3s}
+/* Groupe gauche : logo */
+.nav-left{display:flex;align-items:center;}
+/* Groupe centre : switcher */
+.nav-center{display:flex;align-items:center;position:absolute;left:50%;transform:translateX(-50%);}
+/* Groupe droite : liens */
+.nav-right{display:flex;align-items:center;margin-left:auto;}
+
 .nav-logo{
-  font-family:'Bebas Neue',cursive;font-size:2rem;
-  color:var(--snow);text-decoration:none;letter-spacing:.1em;
+  font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.06em;
+  color:var(--text);text-decoration:none;position:relative;
 }
-.nav-logo span{color:var(--accent)}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-logo::after{
+  content:'';position:absolute;bottom:-3px;left:0;width:100%;height:2px;
+  background:var(--gradient-accent);border-radius:2px;
+}
+.nav-links{list-style:none;display:flex;gap:2rem;}
 .nav-links a{
-  color:var(--ice);text-decoration:none;font-size:.8rem;
-  letter-spacing:.14em;text-transform:uppercase;font-weight:500;
-  transition:color .2s;position:relative;
+  color:var(--nav-link);text-decoration:none;font-size:.78rem;
+  font-family:'Space Mono',monospace;letter-spacing:.05em;transition:color .2s;
+  position:relative;
 }
 .nav-links a::after{
-  content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;
-  background:var(--accent);transition:width .3s;
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+  background:var(--gradient-accent);transition:width .3s;
 }
-.nav-links a:hover{color:var(--accent)}
-.nav-links a:hover::after{width:100%}
+.nav-links a:hover{color:var(--text-highlight);}
+.nav-links a:hover::after{width:100%;}
 
-/* =============================================
-   HERO — SUMMIT / CHAIRLIFT ARRIVAL
-============================================= */
+/* ─── HERO ─── */
 .hero{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;padding:7rem 3rem 8rem;
-  /* Summit section: lighter sky at very top */
+  min-height:100vh;padding:10rem 2.5rem 5rem;
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;justify-content:center;
 }
-
-/* Stars in the summit sky */
-.hero::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;height:40%;
-  background-image:
-    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 25% 8%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 40% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
-    radial-gradient(1px 1px at 55% 5%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 70% 18%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 85% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 15% 30%, rgba(255,255,255,0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 60% 28%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 90% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 5% 22%, rgba(255,255,255,0.5) 0%, transparent 100%);
-  pointer-events:none;z-index:0;
-}
-
-/* Mountain peaks silhouette */
-.hero::after{
-  content:'';
-  position:absolute;
-  bottom:0;left:0;right:0;
-  height:45%;
-  background:
-    /* Slope surface that leads to trees */
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(200,222,255,0.03) 40%,
-      rgba(200,222,255,0.06) 70%,
-      rgba(200,222,255,0.04) 100%
-    );
-  /* Winding slope shape */
-  clip-path: polygon(0 60%, 15% 40%, 30% 50%, 50% 35%, 65% 48%, 80% 38%, 100% 45%, 100% 100%, 0 100%);
-  pointer-events:none;z-index:0;
-}
-
-/* Altitude badge */
-.summit-deco{
-  position:absolute;
-  top:6rem;right:3rem;
-  z-index:3;
-  display:flex;flex-direction:column;gap:.5rem;
-  align-items:flex-end;
-}
-.altitude-badge{
-  font-family:'Space Mono',monospace;font-size:.7rem;
-  color:var(--ice);background:rgba(0,198,255,0.12);
-  border:1px solid rgba(0,198,255,0.25);
-  padding:.3rem .8rem;border-radius:2rem;
-  letter-spacing:.1em;
-}
-.wind-indicator{
-  font-family:'Space Mono',monospace;font-size:.65rem;
-  color:rgba(200,222,255,.5);
-  display:flex;align-items:center;gap:.4rem;
-}
-
-/* ---- CHAIRLIFT ARRIVING ---- */
-.chairlift-arrive{
-  position:absolute;
-  top:4rem;left:0;right:0;
-  height:220px;
-  pointer-events:none;
-  z-index:2;
-}
-
-/* Main cable running across top */
-.cable-top{
-  position:absolute;
-  top:40px;left:0;right:0;height:2px;
-  background:linear-gradient(90deg, transparent 0%, rgba(180,200,230,0.8) 10%, rgba(180,200,230,0.9) 85%, rgba(180,200,230,0.3) 100%);
-}
-
-/* Chairlift chairs */
-.chairlift-chair{
-  position:absolute;
-  top:36px;
-  display:flex;flex-direction:column;align-items:center;
-}
-.chair-1{ left:18%; animation:chairArrive1 12s linear infinite; }
-.chair-2{ left:55%; }
-
-@keyframes chairArrive1{
-  0%{ left:110%; }
-  100%{ left:-10%; }
-}
-
-.chair-bar{
-  width:2px;height:40px;
-  background:rgba(180,200,230,0.9);
-}
-.chair-seat{
-  width:60px;height:22px;
-  background:linear-gradient(180deg,rgba(200,220,255,0.25),rgba(100,140,200,0.3));
-  border:1px solid rgba(180,220,255,0.4);
-  border-radius:3px 3px 0 0;
-  display:flex;align-items:center;justify-content:center;
-}
-
-.pylon-hero{
-  position:absolute;
-  right:8%;top:0;
-  width:8px;height:160px;
-  background:linear-gradient(180deg,rgba(150,180,220,0.9),rgba(80,120,180,0.6));
-  border-radius:2px;
-}
-.pylon-hero::before{
-  content:'';
-  position:absolute;
-  top:30px;left:-20px;right:-20px;height:2px;
-  background:rgba(180,210,240,0.7);
-}
-
-/* ---- SKIER SILHOUETTE ---- */
-.skier-silhouette{
-  position:relative;display:flex;flex-direction:column;align-items:center;
-}
-.skier-silhouette .sk-head{
-  width:8px;height:8px;border-radius:50%;
-  background:rgba(220,235,255,0.8);margin-bottom:2px;
-  order:-1;
-}
-.skier-silhouette .sk-body{
-  width:6px;height:12px;
-  background:rgba(200,220,255,0.7);border-radius:2px;
-}
-.skier-silhouette .sk-skis{
-  width:24px;height:3px;
-  background:rgba(0,198,255,0.8);border-radius:2px;margin-top:2px;
-}
-.skier-silhouette.sitting .sk-body{
-  width:10px;height:8px;
-}
-.skier-silhouette.small .sk-head{ width:5px;height:5px; }
-.skier-silhouette.small .sk-body{ width:4px;height:7px; }
-
-/* ---- HERO CONTENT ---- */
 .hero-content{
-  position:relative;z-index:5;display:grid;
-  grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
-  max-width:1200px;width:100%;
+  display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:center;
+  max-width:1200px;margin:0 auto;width:100%;
 }
-.hero-tag{
-  display:inline-flex;align-items:center;gap:.5rem;
-  background:rgba(0,198,255,0.12);border:1px solid rgba(0,198,255,0.3);
-  color:var(--accent);padding:.4rem 1rem;border-radius:2rem;
-  font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;
-  margin-bottom:1.5rem;font-family:'Space Mono',monospace;
-  animation:fadeUp .8s .2s both;
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  border:1px solid var(--eyebrow-border);color:var(--eyebrow-color);
+  padding:.4rem 1rem;border-radius:3px;font-size:.75rem;
+  font-family:'Space Mono',monospace;letter-spacing:.08em;
+  margin-bottom:1.6rem;background:var(--eyebrow-bg);
 }
-.hero-tag i{font-size:.9rem;animation:pulse 2s infinite}
 .hero-title{
-  font-family:'Anton',sans-serif;
-  font-size:clamp(4rem,9vw,8rem);
-  line-height:.9;letter-spacing:-.02em;
-  text-transform:uppercase;
-  animation:fadeUp .8s .4s both;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:7rem;line-height:.9;letter-spacing:.01em;margin-bottom:1.8rem;
 }
-.hero-title .name{display:block;color:var(--snow)}
-.hero-title .surname{
+.hero-title .line1{display:block;color:var(--text);}
+.hero-title .line2{
   display:block;
-  -webkit-text-stroke:2px var(--accent);
-  color:transparent;
+  background:var(--gradient-accent);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .hero-sub{
-  margin-top:1.5rem;font-size:1rem;color:rgba(200,222,255,.7);
-  line-height:1.7;max-width:42ch;
-  animation:fadeUp .8s .6s both;
+  color:var(--muted);max-width:44ch;line-height:1.75;
+  font-size:.95rem;margin-bottom:2.5rem;
 }
-.hero-cta{
-  display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap;
-  animation:fadeUp .8s .8s both;
-}
-.btn{
-  padding:.75rem 1.8rem;border-radius:3px;font-size:.85rem;
-  text-decoration:none;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;transition:all .2s;display:inline-flex;
-  align-items:center;gap:.5rem;
-  font-family:'Space Mono',monospace;
-}
-.btn-primary{background:var(--accent);color:var(--deep);border:2px solid var(--accent);}
-.btn-primary:hover{background:transparent;color:var(--accent);transform:translateY(-2px)}
-.btn-ghost{background:transparent;color:var(--snow);border:2px solid var(--border);}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem;}
 
-.hero-card{
-  background:var(--glass);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:2rem;
-  backdrop-filter:blur(20px);
-  animation:fadeRight 1s .5s both;
-  position:relative;overflow:hidden;
-  z-index:5;
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 1.8rem;border-radius:3px;
+  font-size:.83rem;font-family:'Space Mono',monospace;letter-spacing:.04em;
+  text-decoration:none;cursor:pointer;border:none;transition:all .3s;
 }
-.hero-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--gold));
+.btn-primary{
+  background:var(--gradient-accent);color:#fff;font-weight:700;
+  box-shadow:0 4px 20px var(--btn-primary-shadow);
 }
-.profile-wrap{
-  display:flex;flex-direction:column;align-items:center;
-  gap:1.2rem;padding-bottom:1.5rem;
-  border-bottom:1px solid var(--border);margin-bottom:1.5rem;
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--btn-primary-shadow-hover);}
+.btn-ghost{
+  background:transparent;color:var(--btn-ghost-text);
+  border:1px solid var(--btn-ghost-border);
 }
-.profile-placeholder{
-  width:90px;height:90px;border-radius:50%;
-  background:linear-gradient(135deg,var(--navy),var(--accent));
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Anton',sans-serif;font-size:1.8rem;color:var(--snow);
-  border:3px solid var(--accent);
-  box-shadow:0 0 30px rgba(0,198,255,.3);
-}
-.card-name{font-family:'Bebas Neue',cursive;font-size:1.5rem;letter-spacing:.08em}
-.card-sub{color:var(--ice);font-size:.8rem;opacity:.7}
-.info-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:.5rem 0;border-bottom:1px solid rgba(200,222,255,.06);
-  font-size:.82rem;
-}
-.info-label{color:rgba(200,222,255,.5);font-family:'Space Mono',monospace;font-size:.72rem}
-.info-value{color:var(--snow);font-weight:500}
-.status-open{
-  color:var(--accent);background:rgba(0,198,255,.1);
-  padding:.2rem .6rem;border-radius:2rem;font-size:.7rem;
-  border:1px solid rgba(0,198,255,.3);
-}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
 
 .hero-scroll{
-  display:flex;align-items:center;gap:.8rem;margin-top:3rem;
-  font-family:'Space Mono',monospace;font-size:.7rem;color:rgba(200,222,255,.4);
+  display:flex;align-items:center;gap:.6rem;
+  color:var(--muted);font-size:.72rem;font-family:'Space Mono',monospace;
+}
+.scroll-line{width:32px;height:1px;background:var(--scroll-line);}
+.scroll-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--accent);
+  animation:pulseDot 1.5s ease-in-out infinite;
+}
+@keyframes pulseDot{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+
+/* ─── HERO CARD ─── */
+.hero-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:12px;padding:1.8rem;backdrop-filter:blur(20px);
+  min-width:250px;position:relative;overflow:hidden;
+  transition:background .5s, border-color .5s;
+}
+.hero-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:var(--gradient-accent);
+}
+.hero-card::after{
+  content:'';position:absolute;inset:0;border-radius:12px;
+  background:var(--card-glow);pointer-events:none;
+}
+.profile-wrap{display:flex;align-items:center;gap:1rem;margin-bottom:1.6rem;}
+.profile-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--gradient-accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#fff;
+  flex-shrink:0;box-shadow:0 0 16px var(--avatar-glow);
+}
+.card-name{font-weight:500;font-size:.95rem;color:var(--text);}
+.card-role{color:var(--accent);font-size:.72rem;font-family:'Space Mono',monospace;letter-spacing:.04em;}
+.info-row{
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.5rem 0;border-bottom:1px solid var(--info-divider);font-size:.8rem;
+}
+.info-row:last-child{border-bottom:none;}
+.info-label{color:var(--muted-strong);font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.04em;flex-shrink:0;}
+.info-value{color:var(--text);text-align:right;}
+.status-badge{
+  display:inline-block;background:var(--badge-bg);color:var(--badge-text);
+  border:1px solid var(--badge-border);
+  padding:.15rem .55rem;border-radius:3px;font-size:.68rem;font-family:'Space Mono',monospace;
+}
+
+/* ─── SECTIONS ─── */
+.section{position:relative;z-index:10;padding:7rem 2.5rem;}
+.container{max-width:1100px;margin:0 auto;width:100%;}
+
+.section-divider{
+  position:relative;z-index:10;height:1px;
+  background:var(--divider);opacity:.4;
+  margin:0 2.5rem;
+}
+.section-label{
+  font-family:'Space Mono',monospace;font-size:.7rem;
   letter-spacing:.15em;text-transform:uppercase;
-  animation:fadeUp .8s 1s both;
+  color:var(--accent);margin-bottom:.8rem;
+  display:flex;align-items:center;gap:.6rem;
 }
-.scroll-line{width:40px;height:1px;background:rgba(0,198,255,.4)}
-.scroll-chevron{animation:bounceDown 1.5s ease-in-out infinite;color:var(--accent);font-size:.9rem}
-@keyframes bounceDown{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
-
-/* =============================================
-   TREES
-============================================= */
-.treeline{
-  position:absolute;
-  bottom:0;left:0;right:0;
-  display:flex;align-items:flex-end;
-  justify-content:space-around;
-  z-index:3;
-  pointer-events:none;
-}
-.treeline-hero{
-  bottom:-1px;
-  padding:0 5%;
-  gap:0;
-}
-
-.tree{
-  position:relative;
-  display:flex;flex-direction:column;align-items:center;
-}
-
-/* Each tree variant has different size */
-.tree::before{
-  content:'';
-  width:0;height:0;
-  border-left:12px solid transparent;
-  border-right:12px solid transparent;
-  border-bottom:28px solid var(--pine);
-  position:relative;z-index:2;
-}
-.tree::after{
-  content:'';
-  width:0;height:0;
-  border-left:8px solid transparent;
-  border-right:8px solid transparent;
-  border-bottom:22px solid var(--pine-dark);
-  position:relative;z-index:2;
-  margin-bottom:2px;
-}
-
-/* Trunk */
-.tree .trunk{
-  width:3px;height:8px;
-  background:rgba(100,60,30,0.8);
-}
-
-/* Varied tree heights */
-.t1::before{ border-bottom-width:32px;border-left-width:14px;border-right-width:14px;}
-.t2::before{ border-bottom-width:24px;border-left-width:10px;border-right-width:10px;}
-.t3::before{ border-bottom-width:38px;border-left-width:16px;border-right-width:16px;}
-.t4::before{ border-bottom-width:20px;border-left-width:9px;border-right-width:9px;}
-.t5::before{ border-bottom-width:30px;border-left-width:13px;border-right-width:13px;}
-.t6::before{ border-bottom-width:26px;border-left-width:11px;border-right-width:11px;}
-.t7::before{ border-bottom-width:34px;border-left-width:15px;border-right-width:15px;}
-.t8::before{ border-bottom-width:22px;border-left-width:10px;border-right-width:10px;}
-.t9::before{ border-bottom-width:28px;border-left-width:12px;border-right-width:12px;}
-.t10::before{ border-bottom-width:18px;border-left-width:8px;border-right-width:8px;}
-.t11::before{ border-bottom-width:36px;border-left-width:16px;border-right-width:16px;}
-.t12::before{ border-bottom-width:40px;border-left-width:17px;border-right-width:17px;}
-.t13::before{ border-bottom-width:22px;border-left-width:10px;border-right-width:10px;}
-.t14::before{ border-bottom-width:30px;border-left-width:13px;border-right-width:13px;}
-.t15::before{ border-bottom-width:26px;border-left-width:11px;border-right-width:11px;}
-
-/* Snow on top of trees */
-.t1::after,.t3::after,.t5::after,.t7::after,.t11::after,.t12::after{
-  border-bottom-color:rgba(220,235,255,0.4);
-}
-
-/* Side trees for slope section */
-.treeline-left{
-  position:absolute;
-  top:0;bottom:0;left:-5px;width:80px;
-  flex-direction:column;justify-content:flex-start;gap:20px;
-  padding-top:5%;
-}
-.treeline-right{
-  position:absolute;
-  top:0;bottom:0;right:-5px;width:80px;
-  flex-direction:column;justify-content:flex-start;gap:20px;
-  padding-top:8%;
-}
-.treeline-left .tree,.treeline-right .tree{
-  transform:scale(0.7);
-}
-@media(max-width:1100px){
-  .treeline-left,.treeline-right{ display:none; }
-}
-
-/* =============================================
-   SLOPE SECTION — À PROPOS
-============================================= */
-.slope-section{
-  position:relative;
-  overflow:hidden;
-  /* The slope runs diagonally — lighter background suggesting snow surface */
-  background:
-    linear-gradient(
-      170deg,
-      transparent 0%,
-      rgba(200,222,255,0.02) 30%,
-      rgba(200,222,255,0.04) 50%,
-      rgba(200,222,255,0.02) 70%,
-      transparent 100%
-    );
-}
-
-/* Diagonal slope surface lines */
-.slope-section::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background-image:
-    repeating-linear-gradient(
-      170deg,
-      transparent,
-      transparent 80px,
-      rgba(200,222,255,0.018) 80px,
-      rgba(200,222,255,0.018) 81px
-    );
-  pointer-events:none;z-index:0;
-}
-
-/* ---- ANIMATED SKIERS ON SLOPE ---- */
-.slope-skiers{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:2;
-}
-
-.slope-skier{
-  position:absolute;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-/* Skier A — fast descent, left track */
-.skier-a{
-  top:15%;left:-10%;
-  animation:skiDown 8s 0.5s linear infinite;
-}
-/* Skier B — medium, right track */
-.skier-b{
-  top:35%;left:-10%;
-  animation:skiDown 11s 3s linear infinite;
-}
-/* Skier C — slow, center */
-.skier-c{
-  top:60%;left:-10%;
-  animation:skiDown 14s 7s linear infinite;
-}
-
-@keyframes skiDown{
-  0%{ left:-8%; top:var(--sk-start-top,10%); }
-  100%{ left:110%; top:var(--sk-end-top,80%); }
-}
-
-.skier-a{ --sk-start-top:10%; --sk-end-top:75%; }
-.skier-b{ --sk-start-top:20%; --sk-end-top:85%; }
-.skier-c{ --sk-start-top:15%; --sk-end-top:90%; }
-
-.sk-fig{
-  position:relative;
-  transform:rotate(-15deg);
-  display:flex;flex-direction:column;align-items:center;
-}
-.sk-fig .sk-head{
-  width:9px;height:9px;border-radius:50%;
-  background:rgba(220,235,255,0.9);
-  margin:0 auto 2px;
-  order:-1;
-}
-.sk-fig .sk-body{
-  width:7px;height:14px;
-  background:rgba(0,198,255,0.7);
-  border-radius:2px;margin:0 auto;
-}
-.sk-fig .sk-poles{
-  position:absolute;
-  top:12px;left:-8px;
-  width:18px;height:1.5px;
-  background:rgba(200,220,255,0.6);
-  transform:rotate(20deg);
-}
-.sk-fig .sk-skis{
-  width:30px;height:3px;
-  background:rgba(255,210,60,0.9);
-  border-radius:2px;margin:3px auto 0;
-}
-.sk-compact .sk-body{ height:10px; }
-.sk-compact .sk-skis{ width:22px; }
-
-.skier-trail{
-  width:40px;height:2px;
-  background:linear-gradient(90deg,transparent,rgba(200,222,255,0.25));
-  margin-top:8px;
-  border-radius:1px;
-}
-
-/* piste markers removed */
-.piste-markers{ display:none; }
-
-/* gate-zone removed */
-.gate-zone{ display:none; }
-
-/* =============================================
-   SECTIONS — SHARED
-============================================= */
-.section{position:relative;z-index:2;padding:7rem 3rem}
-.container{max-width:1200px;margin:0 auto}
-.section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:3.5rem}
-.section-num{
-  font-family:'Bebas Neue',cursive;font-size:5rem;
-  color:rgba(0,198,255,.12);line-height:1;letter-spacing:-.02em;
+.section-label::before{
+  content:'';display:block;width:24px;height:1px;
+  background:var(--gradient-accent);
 }
 .section-title{
-  font-family:'Anton',sans-serif;font-size:clamp(2rem,4vw,3.5rem);
-  text-transform:uppercase;letter-spacing:.03em;color:var(--snow);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.5rem;letter-spacing:.03em;line-height:1;margin-bottom:3rem;
+  color:var(--text);
 }
 
-/* =============================================
-   ABOUT GRID
-============================================= */
-.about-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:3rem;
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1);}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ─── ABOUT ─── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3.5rem;}
+.about-lead{font-size:1.05rem;line-height:1.8;color:var(--muted);margin-bottom:1.2rem;}
+.about-lead strong{color:var(--text);font-weight:500;}
+.about-body{font-size:.9rem;line-height:1.8;color:var(--muted-strong);}
+.passion-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.05em;margin-bottom:1rem;
+  background:var(--gradient-warm);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.about-text .lead{
-  font-size:1.15rem;line-height:1.8;color:var(--ice);margin-bottom:1rem;
-}
-.about-text p{color:rgba(200,222,255,.6);line-height:1.7;font-size:.9rem}
-.about-text strong{color:var(--accent)}
-.passion-title{font-family:'Bebas Neue',cursive;font-size:1.3rem;letter-spacing:.06em;margin-bottom:1rem;color:var(--ice)}
-.tags-cloud{display:flex;flex-wrap:wrap;gap:.6rem}
+.tags-cloud{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem;}
 .tag{
-  background:var(--glass);border:1px solid var(--border);
-  padding:.4rem .9rem;border-radius:3px;font-size:.8rem;
-  color:var(--ice);transition:all .2s;cursor:default;
-  display:flex;align-items:center;gap:.4rem;
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--tag-bg);border:1px solid var(--tag-border);
+  color:var(--muted);
+  padding:.35rem .8rem;border-radius:3px;font-size:.78rem;transition:all .25s;cursor:default;
 }
-.tag:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.tag:hover{background:var(--tag-bg-hover);border-color:var(--tag-border-hover);color:var(--text);}
+.tag i{color:var(--accent);font-size:.72rem;}
 
-/* =============================================
-   SKILLS CAROUSEL
-============================================= */
-.carousel-wrapper{margin-top:2rem}
-.carousel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
-.carousel-label{font-family:'Bebas Neue',cursive;font-size:1.2rem;letter-spacing:.06em;color:var(--ice)}
-.carousel-track-wrapper{
-  overflow:hidden;border-radius:8px;position:relative;
-  white-space:nowrap;padding:1rem 0;
-}
-.carousel-track-wrapper::before,.carousel-track-wrapper::after{
-  content:'';position:absolute;top:0;width:100px;height:100%;z-index:2;
-}
-.carousel-track-wrapper::before{
-  left:0;background:linear-gradient(to right, var(--deep), transparent);
-}
-.carousel-track-wrapper::after{
-  right:0;background:linear-gradient(to left, var(--deep), transparent);
-}
-.carousel-track{
-  display:inline-flex;gap:1.5rem;
-  animation:scrollMarquee 25s linear infinite;
-}
-.carousel-track:hover{animation-play-state:paused}
-@keyframes scrollMarquee{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
-}
+/* ─── SKILLS CAROUSEL ─── */
+.carousel-outer{overflow:hidden;mask:linear-gradient(90deg,transparent,black 8%,black 92%,transparent);-webkit-mask:linear-gradient(90deg,transparent,black 8%,black 92%,transparent);}
+.carousel-label{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.12em;color:var(--muted-strong);margin-bottom:1rem;text-transform:uppercase;}
+.carousel-track{display:flex;gap:1rem;animation:scrollLeft 28s linear infinite;width:max-content;}
+.carousel-track:hover{animation-play-state:paused;}
+@keyframes scrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .skill-card{
-  display:inline-flex;align-items:center;gap:1rem;
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:8px;padding:1.2rem 2rem;transition:all .3s;
-  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  background:var(--skill-bg);border:1px solid var(--skill-border);
+  border-radius:8px;padding:.9rem 1.4rem;min-width:90px;flex-shrink:0;transition:all .3s;
 }
-.skill-card::before{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--accent),transparent);
-  transform:scaleX(0);transform-origin:left;transition:transform .3s;
-}
-.skill-card:hover{border-color:rgba(0,198,255,.3);transform:translateY(-4px)}
-.skill-card:hover::before{transform:scaleX(1)}
-.skill-icon{font-size:2rem;color:var(--accent)}
-.skill-name{font-family:'Bebas Neue',cursive;font-size:1.3rem;letter-spacing:.05em}
+.skill-card:hover{background:var(--skill-bg-hover);border-color:var(--skill-border-hover);transform:translateY(-3px);box-shadow:0 8px 20px var(--skill-shadow);}
+.skill-icon{font-size:1.4rem;color:var(--accent);}
+.skill-name{font-size:.7rem;font-family:'Space Mono',monospace;color:var(--muted);}
 
-/* =============================================
-   FINISH SECTION — PROJECTS / ARRIVÉE
-============================================= */
-.finish-section{
-  position:relative;overflow:hidden;
-  padding-top:4rem;
+/* ─── PROJECTS ─── */
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.project-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:10px;overflow:hidden;cursor:pointer;transition:all .3s;position:relative;
+}
+.project-card::before{
+  content:'';position:absolute;inset:0;
+  background:var(--project-card-hover);opacity:0;transition:opacity .3s;
+}
+.project-card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 16px 40px var(--project-shadow);}
+.project-card:hover::before{opacity:1;}
+.project-thumb{height:140px;overflow:hidden;position:relative;}
+.project-thumb-inner{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:3rem;color:rgba(255,230,245,.8);position:relative;
+}
+.project-thumb-inner::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40%;
+  background:linear-gradient(to top,var(--bg-body),transparent);
+}
+.project-body{padding:1.2rem;}
+.project-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.75rem;}
+.project-tag{
+  font-size:.65rem;font-family:'Space Mono',monospace;
+  background:var(--tag-bg);color:var(--badge-text);
+  border:1px solid var(--tag-border);padding:.2rem .5rem;border-radius:2px;
+}
+.project-name{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.04em;margin-bottom:.5rem;color:var(--text);}
+.project-desc{font-size:.83rem;color:var(--muted);line-height:1.6;}
+.project-footer{
+  padding:.85rem 1.2rem;border-top:1px solid var(--info-divider);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.75rem;color:var(--muted-strong);font-family:'Space Mono',monospace;
+}
+.project-arrow{color:var(--accent);font-size:1rem;transition:transform .3s;}
+.project-card:hover .project-arrow{transform:translateX(4px);}
+
+/* ─── MODAL ─── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--modal-bg);border:1px solid var(--card-border);
+  border-radius:16px;width:90%;max-width:620px;max-height:85vh;overflow-y:auto;
+  position:relative;animation:modalIn .3s cubic-bezier(.22,1,.36,1);
+  scrollbar-width:thin;scrollbar-color:var(--accent) transparent;
+  transition:background .5s;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(24px)}to{opacity:1;transform:none}}
+.modal-close{
+  position:sticky;top:1rem;float:right;margin:1rem 1rem 0;
+  background:var(--tag-bg);border:1px solid var(--card-border);
+  color:var(--accent);width:32px;height:32px;border-radius:50%;
+  cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;z-index:10;
+}
+.modal-close:hover{background:var(--tag-bg-hover);transform:rotate(90deg);}
+.modal-header{padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--info-divider);}
+.modal-icon{font-size:2.2rem;margin-bottom:.8rem;background:var(--gradient-accent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.04em;margin-bottom:.3rem;color:var(--text);}
+.modal-meta{color:var(--muted-strong);font-size:.75rem;font-family:'Space Mono',monospace;}
+.modal-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem;}
+.modal-body{padding:1.5rem 2rem;}
+.modal-section{margin-bottom:1.5rem;}
+.modal-section h4{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;}
+.modal-section p{color:var(--muted);line-height:1.8;font-size:.88rem;}
+.modal-section ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.modal-section ul li{color:var(--muted);font-size:.85rem;padding-left:1.1rem;position:relative;}
+.modal-section ul li::before{content:'▸';position:absolute;left:0;color:var(--accent);}
+.modal-links{padding:1.2rem 2rem 1.5rem;border-top:1px solid var(--info-divider);display:flex;gap:.8rem;flex-wrap:wrap;}
+.modal-link{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:3px;font-size:.78rem;font-family:'Space Mono',monospace;text-decoration:none;transition:all .2s;}
+.modal-link.primary{background:var(--gradient-accent);color:#fff;font-weight:700;}
+.modal-link.primary:hover{box-shadow:0 4px 16px var(--btn-primary-shadow);}
+.modal-link.ghost{border:1px solid var(--card-border);color:var(--text);}
+.modal-link.ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ─── FOOTER ─── */
+.footer{
+  position:relative;z-index:10;padding:6rem 2.5rem 3rem;
+  background:var(--footer-bg);
+  overflow:hidden;
+  padding-bottom:240px; /* espace pour le village */
+}
+.footer .container{position:relative;z-index:2;}
+
+/* ─── VILLAGE MONTAGNE (footer) ─── */
+.valley-scene{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:220px;
+  pointer-events:none;
+  z-index:0;
+}
+.valley-svg{
+  width:100%;height:100%;
+  display:block;
 }
 
-/* Snow ground at finish area — lighter area suggesting floodlit finish zone */
-.finish-section::before{
-  content:'';
+/* Éléments thémés via CSS — sunset */
+[data-theme="sunset"] .valley-tree-fill { fill:#1a0330; }
+[data-theme="sunset"] .valley-trunk     { fill:rgba(80,30,10,.6); }
+[data-theme="sunset"] .chalet-wall      { fill:rgba(124,58,237,.12); stroke:rgba(232,52,122,.28); stroke-width:1; }
+[data-theme="sunset"] .chalet-wall-2    { fill:rgba(124,58,237,.08); stroke:rgba(232,52,122,.2); stroke-width:1; }
+[data-theme="sunset"] .chalet-roof      { fill:#220845; }
+[data-theme="sunset"] .chalet-window    { fill:rgba(255,200,80,.55); }
+[data-theme="sunset"] .chalet-window-small { fill:rgba(255,180,60,.3); stroke:rgba(255,140,60,.25); stroke-width:.8; }
+[data-theme="sunset"] .chalet-door      { fill:rgba(100,30,60,.6); stroke:rgba(232,52,122,.2); stroke-width:.8; }
+[data-theme="sunset"] .chalet-beam      { fill:none; stroke:rgba(255,107,53,.35); stroke-width:3; }
+[data-theme="sunset"] .chalet-chimney   { fill:rgba(80,20,40,.7); stroke:rgba(232,52,122,.2); stroke-width:.8; }
+[data-theme="sunset"] .valley-smoke     { fill:rgba(180,120,80,.45); }
+[data-theme="sunset"] .chalet-sign-bg   { fill:rgba(232,52,122,.15); stroke:rgba(232,52,122,.3); stroke-width:.8; }
+[data-theme="sunset"] .chalet-sign-text { fill:rgba(255,200,120,.7); font-family:'Space Mono',monospace; font-size:5px; letter-spacing:.08em; }
+
+/* Éléments thémés — night */
+[data-theme="night"] .valley-tree-fill { fill:#0b2218; }
+[data-theme="night"] .valley-trunk     { fill:rgba(40,60,30,.6); }
+[data-theme="night"] .chalet-wall      { fill:rgba(0,198,255,.07); stroke:rgba(0,198,255,.2); stroke-width:1; }
+[data-theme="night"] .chalet-wall-2    { fill:rgba(0,100,180,.07); stroke:rgba(0,198,255,.15); stroke-width:1; }
+[data-theme="night"] .chalet-roof      { fill:#071228; }
+[data-theme="night"] .chalet-window    { fill:rgba(255,220,100,.5); }
+[data-theme="night"] .chalet-window-small { fill:rgba(200,180,80,.28); stroke:rgba(200,180,80,.2); stroke-width:.8; }
+[data-theme="night"] .chalet-door      { fill:rgba(4,20,50,.7); stroke:rgba(0,198,255,.15); stroke-width:.8; }
+[data-theme="night"] .chalet-beam      { fill:none; stroke:rgba(200,222,255,.25); stroke-width:3; }
+[data-theme="night"] .chalet-chimney   { fill:rgba(10,30,60,.8); stroke:rgba(0,198,255,.18); stroke-width:.8; }
+[data-theme="night"] .valley-smoke     { fill:rgba(180,200,230,.3); }
+[data-theme="night"] .chalet-sign-bg   { fill:rgba(0,198,255,.1); stroke:rgba(0,198,255,.25); stroke-width:.8; }
+[data-theme="night"] .chalet-sign-text { fill:rgba(0,198,255,.65); font-family:'Space Mono',monospace; font-size:5px; letter-spacing:.08em; }
+
+/* Animation fumée qui monte doucement */
+.valley-smoke{opacity:0;}
+.smoke-1{ animation: smokeRise 4s ease-out infinite; }
+.smoke-2{ animation: smokeRise 4s 1.3s ease-out infinite; }
+.smoke-3{ animation: smokeRise 4s 2.6s ease-out infinite; }
+@keyframes smokeRise{
+  0%   { transform:translateY(0)  scale(1);   opacity:0; }
+  15%  { opacity:.45; }
+  70%  { opacity:.25; }
+  100% { transform:translateY(-28px) scale(1.8); opacity:0; }
+}
+
+
+/* ─── CHAIRLIFT HERO (haut de page) ─── */
+.hero-chairlift{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:180px;
+  pointer-events:none;
+  z-index:4;
+  overflow:hidden;
+}
+/* Câble horizontal continu */
+.hcl-cable{
+  position:absolute;
+  top:72px;left:0;right:0;height:1.5px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    var(--lift-bar) 4%,
+    var(--lift-bar) 96%,
+    transparent 100%
+  );
+  opacity:.55;
+}
+
+/* Chaises animées */
+.hcl-chair{
+  position:absolute;
+  top:58px;
+  display:flex;flex-direction:column;align-items:center;
+  animation:chairSlide linear infinite;
+}
+.hcl-chair .lc-bar{width:2px;height:20px;background:var(--lift-bar);opacity:.75;}
+.hcl-chair .lc-seat{
+  width:44px;height:16px;
+  background:var(--lift-seat-bg);
+  border:1px solid var(--lift-seat-border);
+  border-radius:2px 2px 0 0;opacity:.85;
+}
+.hcl-c1{animation-duration:18s;animation-delay:0s;}
+.hcl-c2{animation-duration:18s;animation-delay:-6s;}
+.hcl-c3{animation-duration:18s;animation-delay:-12s;}
+@keyframes chairSlide{
+  0%  {left:110%;}
+  100%{left:-8%;}
+}
+
+/* ─── SKIEURS SECTION ABOUT ─── */
+.about-skiers{
   position:absolute;
   inset:0;
-  background:
-    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(200,222,255,0.06) 0%, transparent 70%);
-  pointer-events:none;z-index:0;
-}
-
-/* ---- FINISH BANNER ---- */
-.finish-banner{
-  position:relative;
-  display:flex;align-items:flex-start;justify-content:center;
-  gap:0;
-  margin-bottom:1rem;
-  z-index:3;
-  pointer-events:none;
-}
-.finish-pole{
-  width:6px;
-  height:120px;
-  background:linear-gradient(180deg,rgba(200,220,255,0.9),rgba(100,150,220,0.5));
-  border-radius:2px;
-  flex-shrink:0;
-}
-.finish-banner-cloth{
-  flex:1;max-width:400px;
-  height:36px;
-  display:flex;align-items:center;justify-content:center;
-  margin-top:10px;
-  /* Checkered pattern */
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      rgba(255,255,255,0.7) 0px,
-      rgba(255,255,255,0.7) 18px,
-      rgba(20,20,20,0.7) 18px,
-      rgba(20,20,20,0.7) 36px
-    );
-  position:relative;
-  overflow:hidden;
-}
-.finish-banner-cloth::before{
-  content:'';
-  position:absolute;inset:0;
-  background:rgba(7,18,43,0.6);
-}
-.finish-banner-cloth span{
-  position:relative;z-index:1;
-  font-family:'Bebas Neue',cursive;font-size:1.4rem;letter-spacing:.2em;
-  color:var(--gold);
-  text-shadow:0 0 20px rgba(255,209,102,0.5);
-}
-
-/* ---- CROWD ---- */
-.crowd-layer{
-  position:absolute;
-  bottom:0;left:0;right:0;
-  height:60px;
-  display:flex;align-items:flex-end;
-  padding:0 5%;gap:0.3rem;
-  z-index:2;
-  pointer-events:none;
-}
-.crowd-person{
-  flex-shrink:0;
-  border-radius:50% 50% 0 0;
-  position:relative;
-}
-.crowd-person::before{
-  content:'';
-  position:absolute;
-  bottom:100%;left:50%;transform:translateX(-50%);
-  width:50%;
-  background:currentColor;
-  border-radius:50%;
-}
-
-/* Individual crowd members with different heights and colors */
-.cp1{width:18px;height:30px;background:rgba(150,190,240,0.4);}
-.cp1::before{width:9px;height:9px;}
-.cp2{width:16px;height:24px;background:rgba(200,100,100,0.4);}
-.cp2::before{width:8px;height:8px;}
-.cp3{width:20px;height:32px;background:rgba(100,200,150,0.4);}
-.cp3::before{width:10px;height:10px;}
-.cp4{width:15px;height:22px;background:rgba(240,200,100,0.4);}
-.cp4::before{width:7px;height:7px;}
-.cp5{width:18px;height:28px;background:rgba(180,120,200,0.4);}
-.cp5::before{width:9px;height:9px;}
-.cp6{width:17px;height:26px;background:rgba(100,160,220,0.4);}
-.cp6::before{width:8px;height:8px;}
-.cp7{width:19px;height:30px;background:rgba(220,140,80,0.4);}
-.cp7::before{width:9px;height:9px;}
-.cp8{width:16px;height:24px;background:rgba(160,200,120,0.4);}
-.cp8::before{width:8px;height:8px;}
-.cp9{width:18px;height:28px;background:rgba(200,160,200,0.4);}
-.cp9::before{width:9px;height:9px;}
-.cp10{width:17px;height:26px;background:rgba(120,180,240,0.4);}
-.cp10::before{width:8px;height:8px;}
-
-/* =============================================
-   PROJECT CARDS
-============================================= */
-.projects-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;
-}
-.project-card{
-  background:var(--glass);border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;cursor:pointer;
-  transition:all .3s;
-}
-.project-card:hover{border-color:rgba(0,198,255,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,198,255,.1)}
-.project-thumb{
-  height:180px;display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
-}
-.project-thumb-inner{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  transition:transform .4s;
-}
-.project-card:hover .project-thumb-inner{transform:scale(1.05)}
-.project-body{padding:1.2rem 1.3rem 1.5rem}
-.project-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.7rem}
-.project-tag{
-  font-family:'Space Mono',monospace;font-size:.65rem;
-  padding:.15rem .5rem;border-radius:2px;
-  background:rgba(0,198,255,.1);color:var(--accent);
-  border:1px solid rgba(0,198,255,.25);
-}
-.project-name{font-family:'Anton',sans-serif;font-size:1.3rem;text-transform:uppercase;margin-bottom:.5rem;letter-spacing:.03em}
-.project-desc{font-size:.82rem;color:rgba(200,222,255,.6);line-height:1.6}
-.project-footer{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.8rem 1.3rem;border-top:1px solid var(--border);
-  font-family:'Space Mono',monospace;font-size:.7rem;color:rgba(200,222,255,.4);
-}
-.project-arrow{color:var(--accent);font-size:1rem;transition:transform .2s}
-.project-card:hover .project-arrow{transform:translateX(4px)}
-
-/* =============================================
-   MODAL
-============================================= */
-.modal-overlay{
-  position:fixed;inset:0;z-index:500;
-  background:rgba(7,18,43,.85);backdrop-filter:blur(8px);
-  display:none;align-items:center;justify-content:center;padding:2rem;
-}
-.modal-overlay.open{display:flex}
-.modal{
-  background:var(--navy);border:1px solid var(--border);
-  border-radius:12px;max-width:700px;width:100%;
-  max-height:90vh;overflow-y:auto;position:relative;
-  animation:modalIn .4s cubic-bezier(.25,.46,.45,.94);
-}
-.modal::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--gold));
-}
-.modal-close{
-  position:absolute;top:1rem;right:1rem;
-  background:var(--glass);border:1px solid var(--border);
-  color:var(--snow);width:36px;height:36px;border-radius:50%;
-  cursor:pointer;font-size:.9rem;transition:all .2s;z-index:10;
-}
-.modal-close:hover{background:var(--accent2);border-color:var(--accent2)}
-.modal-header{padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--border);}
-.modal-icon{font-size:3rem;color:var(--accent);margin-bottom:.8rem}
-.modal-title{font-family:'Anton',sans-serif;font-size:2rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
-.modal-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
-.modal-body{padding:2rem}
-.modal-section{margin-bottom:1.5rem}
-.modal-section h4{
-  font-family:'Bebas Neue',cursive;font-size:1rem;letter-spacing:.1em;
-  color:var(--accent);margin-bottom:.5rem;text-transform:uppercase;
-}
-.modal-section p{color:rgba(200,222,255,.75);font-size:.88rem;line-height:1.7}
-.modal-section ul{list-style:none;display:flex;flex-direction:column;gap:.3rem}
-.modal-section ul li{
-  color:rgba(200,222,255,.7);font-size:.85rem;padding-left:1rem;position:relative;
-}
-.modal-section ul li::before{content:'▸';position:absolute;left:0;color:var(--accent)}
-.modal-links{display:flex;gap:.8rem;flex-wrap:wrap;padding:1.5rem 2rem;border-top:1px solid var(--border)}
-.modal-link{
-  padding:.6rem 1.2rem;border-radius:4px;text-decoration:none;
-  font-family:'Space Mono',monospace;font-size:.75rem;
-  letter-spacing:.05em;transition:all .2s;
-}
-.modal-link.primary{background:var(--accent);color:var(--deep);font-weight:700}
-.modal-link.primary:hover{background:var(--ice);transform:translateY(-1px)}
-.modal-link.ghost{background:var(--glass);color:var(--ice);border:1px solid var(--border)}
-.modal-link.ghost:hover{border-color:var(--accent);color:var(--accent)}
-
-/* =============================================
-   FOOTER — CHAIRLIFT STATION / DÉPART
-============================================= */
-.footer{
-  padding:4rem 3rem 3rem;
-  position:relative;
-  z-index:2;
-  overflow:hidden;
-}
-
-/* Night valley atmosphere */
-.footer::before{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(
-    to bottom,
-    rgba(7,18,43,0) 0%,
-    rgba(4,12,30,0.6) 40%,
-    rgba(4,10,25,0.9) 100%
-  );
-  pointer-events:none;z-index:0;
-}
-
-/* ---- CHAIRLIFT STATION ILLUSTRATION ---- */
-.chairlift-station{
-  position:absolute;
-  bottom:0;right:0;left:0;
-  height:280px;
   pointer-events:none;
   z-index:1;
+  overflow:hidden;
 }
-
-/* Station building */
-.station-building{
+.slope-skier{
   position:absolute;
-  bottom:0;left:5%;
-  width:160px;
+  display:flex;align-items:center;gap:8px;
 }
-.station-roof{
-  width:0;height:0;
-  border-left:85px solid transparent;
-  border-right:85px solid transparent;
-  border-bottom:40px solid rgba(100,140,200,0.5);
-  margin-bottom:-2px;
+/* Tracé de ski derrière le skieur */
+.sk-trail{
+  width:36px;height:1.5px;
+  background:linear-gradient(90deg,transparent,var(--muted-strong));
+  opacity:.35;
+  margin-top:6px;
 }
-.station-body{
-  width:100%;height:80px;
-  background:rgba(20,40,80,0.7);
-  border:1px solid rgba(100,150,220,0.3);
-  border-radius:2px;
-  padding:8px;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:6px;
-}
-.station-window{
-  background:rgba(255,220,100,0.25);
-  border:1px solid rgba(255,220,100,0.3);
-  border-radius:2px;
-}
-.sw1{width:20px;height:20px;}
-.sw2{width:15px;height:15px;}
-.station-sign{
-  font-family:'Space Mono',monospace;font-size:.45rem;
-  letter-spacing:.15em;color:rgba(255,220,100,0.7);text-transform:uppercase;
-}
-
-/* Cables going up from station */
-.station-cable-left{
-  position:absolute;
-  bottom:80px;left:12%;
-  width:2px;
-  height:200px;
-  background:linear-gradient(180deg,rgba(180,200,230,0.8) 0%,rgba(180,200,230,0.2) 100%);
-  transform:rotate(-15deg);
-  transform-origin:bottom center;
-}
-.station-cable-right{
-  position:absolute;
-  bottom:80px;left:18%;
-  width:2px;
-  height:200px;
-  background:linear-gradient(180deg,rgba(180,200,230,0.8) 0%,rgba(180,200,230,0.2) 100%);
+/* Figurine skieur */
+.sk-fig{
+  display:flex;flex-direction:column;align-items:center;
   transform:rotate(-12deg);
-  transform-origin:bottom center;
 }
-
-/* Pylons */
-.pylon{
-  position:absolute;
-  bottom:0;
-  width:8px;
-  background:linear-gradient(180deg,rgba(150,180,220,0.8),rgba(80,120,180,0.5));
+.sk-fig .sk-head{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--text);opacity:.8;margin-bottom:1px;
+}
+.sk-fig .sk-body{
+  width:6px;height:13px;
   border-radius:2px;
+  background:var(--accent);opacity:.75;
 }
-.pylon-1{ height:100px;left:28%; }
-.pylon-2{ height:140px;left:52%; }
-.pylon-3{ height:100px;left:72%; }
+.sk-fig .sk-skis{
+  width:26px;height:3px;
+  background:var(--gradient-warm);
+  border-radius:2px;margin-top:2px;opacity:.9;
+}
+/* Variante petite taille pour profondeur */
+.sk-fig.small .sk-head{width:5px;height:5px;}
+.sk-fig.small .sk-body{width:4px;height:9px;}
+.sk-fig.small .sk-skis{width:18px;height:2px;}
 
-.pylon-arm{
-  position:absolute;
-  top:15px;left:-14px;right:-14px;height:2px;
-  background:rgba(180,210,240,0.7);
+/* 3 skieurs avec trajectoires différentes */
+.slope-skier-a{
+  top:8%;left:-10%;
+  animation:skiPath 9s 0.3s linear infinite;
+  --end-top:72%;
 }
-.pylon-arm::before,.pylon-arm::after{
-  content:'';
-  position:absolute;
-  top:-4px;width:3px;height:8px;
-  background:rgba(180,210,240,0.7);border-radius:1px;
+.slope-skier-b{
+  top:22%;left:-10%;
+  animation:skiPath 13s 4.5s linear infinite;
+  --end-top:82%;
 }
-.pylon-arm::before{left:4px}
-.pylon-arm::after{right:4px}
+.slope-skier-c{
+  top:12%;left:-10%;
+  animation:skiPath 16s 8s linear infinite;
+  --end-top:88%;
+}
+/* On définit les end-top une seule fois ici (APRÈS les classes) */
+.slope-skier-a{--end-top:70%;}
+.slope-skier-b{--end-top:80%;}
+.slope-skier-c{--end-top:85%;}
 
-/* Queue skiers removed — stood on nothing */
-.queue-skiers{ display:none; }
-
-/* Chairs on cable — removed floating animation, keep static chairs */
-.cable-chair{
-  position:absolute;
-  bottom:0;
-  display:flex;flex-direction:column;align-items:center;
+@keyframes skiPath{
+  0%  {left:-8%; top:8%; opacity:0;}
+  5%  {opacity:1;}
+  95% {opacity:1;}
+  100%{left:112%; top:var(--end-top); opacity:0;}
 }
-.cc1{ left:32%; bottom:95px; }
-.cc2{ left:56%; bottom:130px; }
-.cc3{ left:76%; bottom:95px; }
-
-.cable-chair .chair-bar{
-  width:2px;height:28px;background:rgba(180,200,230,0.8);
-}
-.cable-chair .chair-seat{
-  width:44px;height:16px;
-  background:rgba(200,220,255,0.2);
-  border:1px solid rgba(180,220,255,0.35);
-  border-radius:2px 2px 0 0;
-  display:flex;align-items:center;justify-content:center;
-}
-
-/* Queue of skiers */
-.queue-skiers{
-  position:absolute;
-  bottom:2px;left:20%;
-  display:flex;gap:8px;align-items:flex-end;
-}
-.queue-skier{
-  display:flex;flex-direction:column;align-items:center;
-}
-.queue-skier .sk-head{
-  width:7px;height:7px;border-radius:50%;
-  background:rgba(200,220,255,0.8);margin-bottom:2px;
-}
-.queue-skier .sk-body{
-  width:5px;height:10px;
-  border-radius:2px;
-}
-.qs1 .sk-body{background:rgba(0,198,255,0.7)}
-.qs2 .sk-body{background:rgba(255,70,70,0.7)}
-.qs3 .sk-body{background:rgba(255,209,60,0.7)}
-
-/* Altitude display board */
-.altitude-display{
-  position:absolute;
-  bottom:0;right:5%;
-  width:130px;
-}
-.alt-screen{
-  background:rgba(10,25,50,0.9);
-  border:1px solid rgba(0,198,255,0.4);
-  border-radius:4px;
-  padding:8px 12px;
-  font-family:'Space Mono',monospace;
-}
-.alt-label{font-size:.55rem;color:rgba(0,198,255,0.6);letter-spacing:.08em;text-transform:uppercase}
-.alt-value{font-size:.9rem;color:var(--gold);letter-spacing:.05em;font-weight:700}
-
-/* ---- QUEUE SKIERS HEADING DOWN ---- */
-
-/* Snow ground texture at bottom */
-.snow-ground{
-  position:absolute;
-  bottom:0;left:0;right:0;
-  height:15px;
-  background:linear-gradient(180deg,rgba(200,220,255,0.0),rgba(200,220,255,0.08));
-  border-top:1px solid rgba(200,220,255,0.1);
-}
-
-/* Footer content */
-.footer-sub{color:rgba(200,222,255,.6);max-width:50ch;margin-bottom:2.5rem;line-height:1.7;position:relative;z-index:2}
-.contact-links{display:flex;flex-direction:column;gap:1rem;margin-bottom:3rem;position:relative;z-index:2}
-.contact-pill{
+.footer-intro{color:var(--muted);max-width:48ch;margin-bottom:2.5rem;line-height:1.75;font-size:.95rem;}
+.contact-email{
   display:inline-flex;align-items:center;gap:.8rem;
-  background:var(--glass);border:1px solid var(--border);
-  padding:.8rem 1.5rem;border-radius:4px;color:var(--ice);
-  text-decoration:none;font-size:.88rem;transition:all .3s;max-width:fit-content;
+  border:1px solid var(--btn-ghost-border);
+  padding:.85rem 1.6rem;border-radius:3px;color:var(--badge-text);
+  text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace;
+  transition:all .3s;margin-bottom:1.5rem;background:var(--tag-bg);
 }
-.contact-pill:hover{border-color:var(--accent);color:var(--accent);transform:translateX(4px)}
-.footer-bottom{
-  display:flex;justify-content:space-between;
-  padding-top:2rem;border-top:1px solid var(--border);
-  color:rgba(200,222,255,.3);font-size:.8rem;font-family:'Space Mono',monospace;
-  position:relative;z-index:2;
-}
-
-/* =============================================
-   CONTACT FORM
-============================================= */
-.contact-form-wrap{
-  display:flex;
-  flex-direction:column;
-  gap:1.5rem;
-  margin-bottom:3rem;
-  position:relative;z-index:2;
-}
-.contact-left{
-  display:flex;align-items:center;gap:2rem;
-  flex-wrap:wrap;
-}
+.contact-email:hover{border-color:var(--accent);background:var(--tag-bg-hover);transform:translateX(4px);}
 .contact-hint{
-  display:flex;align-items:center;gap:.75rem;
-  color:rgba(200,222,255,.45);
-  font-size:.85rem;font-family:'Space Mono',monospace;
-  line-height:1.5;
+  display:flex;align-items:center;gap:.65rem;
+  color:var(--muted-strong);font-size:.8rem;font-family:'Space Mono',monospace;margin-bottom:2.5rem;
 }
-.contact-hint i{ color:var(--accent);font-size:1rem;flex-shrink:0; }
-
-/* Form container — fully transparent so decorations show through */
-.contact-form{
-  display:flex;flex-direction:column;gap:1.2rem;
-  background:transparent;
-  border:none;
-  border-radius:0;
-  padding:0;
-  backdrop-filter:none;
-  position:relative;z-index:2;
-  width:100%;
+.contact-hint i{color:var(--accent);}
+.contact-form{display:flex;flex-direction:column;gap:1.2rem;max-width:700px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem;}
+.form-group{display:flex;flex-direction:column;gap:.4rem;}
+.form-group label{font-size:.68rem;font-family:'Space Mono',monospace;color:var(--muted-strong);letter-spacing:.08em;text-transform:uppercase;}
+.form-group input,.form-group textarea{
+  background:var(--input-bg);border:1px solid var(--input-border);border-radius:8px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;
+  padding:.75rem 1rem;outline:none;resize:none;width:100%;
+  transition:border-color .25s,background .25s,box-shadow .25s;
 }
-.contact-form::before{ display:none; }
-
-.form-row{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem;
-}
-/* Sujet prend toute la largeur sur la 2e ligne */
-.form-group-full{
-  grid-column:1/-1;
-}
-
-.form-group{
-  display:flex;flex-direction:column;gap:.45rem;
-}
-.form-group label{
-  font-size:.78rem;font-family:'Space Mono',monospace;
-  color:rgba(200,222,255,.6);letter-spacing:.05em;text-transform:uppercase;
-}
-.form-group input,
-.form-group textarea{
-  background:rgba(7,18,43,0.55);
-  border:1px solid rgba(200,222,255,0.18);
-  border-radius:10px;
-  color:var(--snow);
-  font-family:'DM Sans',sans-serif;font-size:.95rem;
-  padding:.75rem 1rem;
-  outline:none;
-  transition:border-color .25s, background .25s, box-shadow .25s;
-  resize:none;
-  width:100%;
-  backdrop-filter:blur(4px);
-}
-.form-group input::placeholder,
-.form-group textarea::placeholder{
-  color:rgba(200,222,255,.28);
-}
-.form-group input:focus,
-.form-group textarea:focus{
-  border-color:rgba(0,198,255,0.5);
-  background:rgba(7,18,43,0.7);
-  box-shadow:0 0 0 3px rgba(0,198,255,0.1);
-}
-.form-group input.input-error,
-.form-group textarea.input-error{
-  border-color:rgba(255,71,71,0.6);
-  box-shadow:0 0 0 3px rgba(255,71,71,0.1);
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--muted-strong);}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent);background:var(--input-bg-focus);box-shadow:0 0 0 3px var(--input-focus-ring);}
+.form-group input.error,.form-group textarea.error{border-color:rgba(255,80,80,.5);box-shadow:0 0 0 3px rgba(255,80,80,.08);}
+.form-bottom{display:grid;grid-template-columns:1fr auto;gap:1.2rem;align-items:end;}
+.form-submit{display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap;}
+.btn-text,.btn-loading{display:inline-flex;align-items:center;gap:.5rem;}
+.form-feedback{font-size:.82rem;font-family:'Space Mono',monospace;border-radius:6px;padding:.6rem 1rem;display:none;margin-top:.5rem;}
+.form-feedback.success{display:block;background:rgba(255,200,80,.08);border:1px solid rgba(255,200,80,.2);color:var(--badge-text);}
+.form-feedback.error{display:block;background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);color:#ff9090;}
+.footer-bottom{
+  display:flex;justify-content:space-between;padding-top:2rem;margin-top:3rem;
+  border-top:1px solid var(--info-divider);
+  color:var(--muted-strong);font-size:.75rem;font-family:'Space Mono',monospace;
 }
 
-.form-bottom-row{
-  display:grid;grid-template-columns:1fr auto;gap:1.2rem;align-items:end;
-}
-
-.form-submit{
-  display:inline-flex;align-items:center;gap:.5rem;
-  white-space:nowrap;
-}
-.btn-text,.btn-loading{
-  display:inline-flex;align-items:center;gap:.5rem;
-}
-
-/* Feedback message */
-.form-feedback{
-  font-size:.88rem;font-family:'Space Mono',monospace;
-  border-radius:8px;padding:.6rem 1rem;
-  display:none;
-}
-.form-feedback.success{
-  display:block;
-  background:rgba(0,198,100,0.12);
-  border:1px solid rgba(0,198,100,0.25);
-  color:#4dffa0;
-}
-.form-feedback.error{
-  display:block;
-  background:rgba(255,71,71,0.1);
-  border:1px solid rgba(255,71,71,0.2);
-  color:#ff8080;
-}
-
-/* =============================================
-   ANIMATIONS & KEYFRAMES
-============================================= */
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-@keyframes fadeRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
-@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:none}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-.reveal-up{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
-.reveal-up.visible{opacity:1;transform:none}
-
-/* =============================================
-   RESPONSIVE
-============================================= */
+/* ─── RESPONSIVE ─── */
 @media(max-width:900px){
-  .hero-content{grid-template-columns:1fr;gap:2rem}
-  .about-grid{grid-template-columns:1fr}
-  .projects-grid{grid-template-columns:1fr 1fr}
-  nav{padding:1rem 1.5rem}
-  .section{padding:5rem 1.5rem}
-  .hero{padding:6rem 1.5rem 3rem}
-  .hero-title{font-size:4.5rem}
-  .summit-deco{top:5rem;right:1.5rem}
-  .chairlift-arrive{display:none}
-  .treeline-left,.treeline-right{display:none}
-  .form-row{grid-template-columns:1fr 1fr}
-  .form-bottom-row{grid-template-columns:1fr;gap:.8rem}
-  .form-submit{align-self:flex-start}
+  #navbar{padding:.9rem 1.5rem;}
+  .nav-center{position:static;transform:none;}
+  #navbar{flex-wrap:wrap;gap:.6rem;}
+  .nav-right{margin-left:0;width:100%;justify-content:center;}
+  .nav-links{gap:1.5rem;}
+  .hero-content{grid-template-columns:1fr;gap:2.5rem;}
+  .hero-title{font-size:5rem;}
+  .about-grid{grid-template-columns:1fr;}
+  .projects-grid{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr 1fr;}
+  .form-bottom{grid-template-columns:1fr;}
+  .form-submit{align-self:flex-start;}
+  .section{padding:5rem 1.5rem;}
+  .about-skiers{display:none;}
 }
 @media(max-width:600px){
-  .projects-grid{grid-template-columns:1fr}
-  .finish-banner{display:none}
-  .slope-skiers{display:none}
-  .piste-markers{display:none}
-  .form-row{grid-template-columns:1fr}
+  .hero-title{font-size:3.8rem;}
+  .projects-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .nav-links{gap:1.2rem;}
+  .hero-chairlift{opacity:.5;}
+  .lift-station{opacity:.5;}
+  #theme-switcher span{display:none;}
+  #theme-switcher{padding:5px;}
+  .theme-btn{padding:.5rem .8rem;}
 }

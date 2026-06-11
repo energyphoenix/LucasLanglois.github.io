@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════
+   theme-sunset.css — Coucher de soleil en montagne
+   Palette : orangés · roses · violets
+   ═══════════════════════════════════════════ */
+
+[data-theme="sunset"] {
+
+  /* Couleurs clés */
+  --bg-body:            #0f0519;
+  --text:               #f5e6ff;
+  --muted:              rgba(245,230,255,0.55);
+  --muted-strong:       rgba(245,230,255,0.35);
+  --accent:             #ff6b35;
+  --accent-alt:         #e8347a;
+
+  /* Gradients */
+  --gradient-accent:    linear-gradient(90deg, #ff6b35, #e8347a 55%, #7c3aed);
+  --gradient-warm:      linear-gradient(90deg, #ffd59e, #e8347a);
+
+  /* Layout */
+  --divider:            linear-gradient(90deg, transparent, #ff6b35 20%, #e8347a 50%, #7c3aed 80%, transparent);
+  --border:             rgba(255,150,180,0.15);
+  --navbar-scrolled-bg: rgba(15,5,25,0.85);
+  --footer-bg:          linear-gradient(to bottom, transparent, rgba(10,2,20,0.7));
+
+  /* Navbar */
+  --nav-link:           rgba(245,230,255,0.6);
+  --text-highlight:     #ffd59e;
+
+  /* Eyebrow hero */
+  --eyebrow-border:     rgba(232,52,122,0.35);
+  --eyebrow-color:      #e8347a;
+  --eyebrow-bg:         rgba(232,52,122,0.08);
+
+  /* Buttons */
+  --btn-primary-shadow:       rgba(255,107,53,0.35);
+  --btn-primary-shadow-hover: rgba(255,107,53,0.55);
+  --btn-ghost-border:         rgba(255,180,200,0.3);
+  --btn-ghost-text:           #ffe4f0;
+  --scroll-line:              linear-gradient(90deg, rgba(255,107,53,0.5), transparent);
+
+  /* Cards */
+  --card-bg:            rgba(124,58,237,0.07);
+  --card-border:        rgba(232,52,122,0.18);
+  --card-glow:          radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,52,122,0.06), transparent);
+  --avatar-glow:        rgba(232,52,122,0.4);
+  --info-divider:       rgba(255,150,180,0.08);
+  --modal-bg:           linear-gradient(135deg, #1a0a2e, #0f0519);
+
+  /* Status / badge */
+  --badge-bg:           rgba(255,107,53,0.12);
+  --badge-text:         #ffd59e;
+  --badge-border:       rgba(255,107,53,0.25);
+
+  /* Tags */
+  --tag-bg:             rgba(124,58,237,0.1);
+  --tag-border:         rgba(124,58,237,0.22);
+  --tag-bg-hover:       rgba(232,52,122,0.1);
+  --tag-border-hover:   rgba(232,52,122,0.3);
+
+  /* Skills */
+  --skill-bg:           rgba(124,58,237,0.08);
+  --skill-border:       rgba(255,107,53,0.12);
+  --skill-bg-hover:     rgba(232,52,122,0.1);
+  --skill-border-hover: rgba(232,52,122,0.3);
+  --skill-shadow:       rgba(232,52,122,0.15);
+
+  /* Projects */
+  --project-card-hover: linear-gradient(135deg, rgba(232,52,122,0.04), transparent);
+  --project-shadow:     rgba(124,58,237,0.2);
+
+  /* Form */
+  --input-bg:           rgba(124,58,237,0.07);
+  --input-border:       rgba(255,107,53,0.15);
+  --input-bg-focus:     rgba(124,58,237,0.1);
+  --input-focus-ring:   rgba(232,52,122,0.08);
+
+  /* Switcher */
+  --switcher-bg:        rgba(15,5,25,0.75);
+  --switcher-border:    rgba(255,107,53,0.2);
+  --switcher-shadow:    rgba(255,107,53,0.15);
+  --switcher-muted:     rgba(245,230,255,0.4);
+  --switcher-hover:     #ffd59e;
+  --switcher-active-bg:     linear-gradient(135deg, #ff6b35, #e8347a);
+  --switcher-active-text:   #fff;
+  --switcher-active-shadow: rgba(255,107,53,0.4);
+
+  /* Chairlift */
+  --lift-cable:  linear-gradient(180deg, transparent, rgba(255,180,120,0.4) 15%, rgba(255,180,120,0.55) 50%, rgba(255,180,120,0.4) 85%, transparent);
+  --lift-bar:    rgba(255,180,120,0.7);
+  --lift-seat-bg:     rgba(255,110,50,0.3);
+  --lift-seat-border: rgba(255,140,80,0.5);
+}
+
+/* ─── Mountains SVG — sunset tints ─── */
+[data-theme="sunset"] .mtn-far-top   { stop-color:#2a0845; }
+[data-theme="sunset"] .mtn-far-bot   { stop-color:#1a0530; }
+[data-theme="sunset"] .mtn-mid-top   { stop-color:#180330; }
+[data-theme="sunset"] .mtn-mid-bot   { stop-color:#0f0220; }
+[data-theme="sunset"] .mtn-front-top { stop-color:#0d0118; }
+[data-theme="sunset"] .mtn-front-bot { stop-color:#080010; }
+[data-theme="sunset"] .snow-top      { stop-color:#ffe4c8; stop-opacity:0.55; }
+[data-theme="sunset"] .snow-bot      { stop-color:#ff9060; stop-opacity:0; }
+[data-theme="sunset"] .mtn-ground    { fill:#080010; }
+[data-theme="sunset"] .svg-trees     { fill:#1a0330; }
