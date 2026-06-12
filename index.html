@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/style.css">
 <!-- Theme styles — swapped by JS -->
 <link rel="stylesheet" id="theme-css" href="css/theme-sunset.css">
+<link rel="stylesheet" id="theme-day-css" href="css/theme-day.css">
 </head>
 <body>
 
@@ -70,6 +71,10 @@
   <!-- ─── THEME SWITCHER centré ─── -->
   <div class="nav-center">
     <div id="theme-switcher" aria-label="Changer de thème">
+      <button id="btn-day" class="theme-btn" title="Jour ensoleillé">
+        <i class="fa-solid fa-sun-bright"></i>
+        <span>Day</span>
+      </button>
       <button id="btn-sunset" class="theme-btn active" title="Coucher de soleil">
         <i class="fa-solid fa-sun"></i>
         <span>Sunset</span>
@@ -627,6 +632,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="js/sky-day.js"></script>
 <script src="js/sky-sunset.js"></script>
 <script src="js/sky-night.js"></script>
 <script src="js/main.js"></script>
