@@ -8,6 +8,7 @@
 const ThemeManager = (() => {
   const root      = document.documentElement;
   const themeLink = document.getElementById('theme-css');
+  const btnDay    = document.getElementById('btn-day');
   const btnSunset = document.getElementById('btn-sunset');
   const btnNight  = document.getElementById('btn-night');
 
@@ -16,7 +17,6 @@ const ThemeManager = (() => {
   function applyTheme(name, animate = false) {
     if (name === current && root.dataset.theme === name) return;
 
-    /* Transition douce */
     if (animate) {
       document.body.style.transition = 'opacity .35s';
       document.body.style.opacity    = '0';
@@ -35,41 +35,40 @@ const ThemeManager = (() => {
     root.dataset.theme = name;
     localStorage.setItem('ll-theme', name);
 
-    /* Swap CSS */
     themeLink.href = `css/theme-${name}.css`;
 
-    /* Swap boutons actifs */
+    btnDay.classList.toggle('active', name === 'day');
     btnSunset.classList.toggle('active', name === 'sunset');
     btnNight.classList.toggle('active',  name === 'night');
 
-    /* Swap animations sky */
-    if (name === 'sunset') {
-      NightSky.stop();
-      SunsetSky.start();
-    } else {
-      SunsetSky.stop();
-      NightSky.start();
-    }
+    if (typeof DaySky !== 'undefined') DaySky.stop();
+    if (typeof SunsetSky !== 'undefined') SunsetSky.stop();
+    if (typeof NightSky !== 'undefined') NightSky.stop();
+
+    if (name === 'day' && typeof DaySky !== 'undefined') DaySky.start();
+    else if (name === 'sunset' && typeof SunsetSky !== 'undefined') SunsetSky.start();
+    else if (name === 'night' && typeof NightSky !== 'undefined') NightSky.start();
   }
 
   function init() {
-    /* Démarrage sans animation */
     root.dataset.theme = current;
     themeLink.href = `css/theme-${current}.css`;
+
+    btnDay.classList.toggle('active', current === 'day');
     btnSunset.classList.toggle('active', current === 'sunset');
     btnNight.classList.toggle('active',  current === 'night');
 
-    if (current === 'sunset') SunsetSky.start();
-    else                      NightSky.start();
+    if (current === 'day' && typeof DaySky !== 'undefined') DaySky.start();
+    else if (current === 'sunset' && typeof SunsetSky !== 'undefined') SunsetSky.start();
+    else if (current === 'night' && typeof NightSky !== 'undefined') NightSky.start();
 
-    /* Listeners boutons */
+    btnDay.addEventListener('click', () => applyTheme('day', true));
     btnSunset.addEventListener('click', () => applyTheme('sunset', true));
     btnNight.addEventListener('click',  () => applyTheme('night',  true));
   }
 
   return { init, applyTheme };
 })();
-
 
 /* ══════════════════════════════════════
    NAVBAR — fond au scroll
