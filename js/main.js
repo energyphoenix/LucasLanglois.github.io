@@ -128,39 +128,72 @@ const track = document.getElementById('skills-track');
    ══════════════════════════════════════ */
 const projects = [
   {
+    id: 4,
+    icon: 'fa-solid fa-server',
+    name: 'CMDB STRESY — DSIM',
+    bg:      'linear-gradient(135deg,#0a1428,#1a4a7a)',
+    bgNight: 'linear-gradient(135deg,#040a18,#0a2a4a)',
+    bgDay:   'linear-gradient(135deg,#1565c0,#42a5f5)',
+    tags: ['Django', 'Python', 'Docker', 'JavaScript'],
+    desc: "Application web CMDB centralisant en temps réel les inventaires de machines virtuelles et logiciels d'un service informatique universitaire.",
+    details: "Stage de 10 semaines effectué au sein du service STRESY de la Direction des Systèmes d'Informations Mutualisés (DSIM) de l'UGA. La mission consistait à concevoir et déployer une application web de type CMDB (Configuration Management Database) agrégeant en temps réel, sans base de données locale, les inventaires de machines virtuelles et de logiciels de l'université à partir de plusieurs API REST distantes. J'ai développé le backend avec Django (Python) et l'interface interactive en HTML/CSS/JavaScript : recherche par mots-clés, filtres par colonne, tri et pagination dynamique, exports CSV/PDF/YAML. Une stratégie de cache applicatif et un script Python autonome de collecte des versions de noyaux Linux ont permis d'optimiser les performances, avant un déploiement conteneurisé avec Docker directement utilisé en production par l'équipe.",
+    features: ['Agrégation temps réel de plusieurs API REST sans base de données locale', 'Tableau de bord interactif (recherche, filtres, tri, pagination)', 'Exports CSV / PDF / YAML et cache applicatif Django', 'Déploiement conteneurisé avec Docker'],
+    role: 'Développeur Full-stack (stage)',
+    duration: '20 avril – 26 juin 2026',
+    links: []
+  },
+  {
+    id: 3,
+    icon: 'fa-brands fa-symfony',
+    name: 'Refonte App. Recherche de Stages',
+    bg:      'linear-gradient(135deg,#0a1f1a,#1a6b54)',
+    bgNight: 'linear-gradient(135deg,#06140f,#0d3328)',
+    bgDay:   'linear-gradient(135deg,#00838f,#26c6da)',
+    tags: ['PHP', 'Symfony', 'SQL', 'Docker'],
+    desc: "Amélioration qualité d'une application de recherche de stages (mobile Android + back-office Symfony), pilotée en tant que chef de projet.",
+    details: "Projet réalisé en groupe de 6 dans le cadre de la SAE 4.01, visant à améliorer la qualité et l'optimisation d'une application existante de recherche de stages, composée d'une application mobile Android pour les étudiants et d'un back-office Web Symfony pour l'administration. En tant que chef de projet, j'ai assuré la coordination de l'équipe et le suivi global de l'avancement, tout en travaillant principalement sur l'application Web Symfony : renforcement de la sécurité (authentification, contrôle d'accès par rôle, rate limiting), alignement aux règles métier, optimisation des requêtes SQL et de l'architecture API Platform, ainsi que la mise en place de tests automatisés et de la documentation technique.",
+    features: ['Pilotage de projet (planning, coordination, suivi d\'équipe)', 'Renforcement de la sécurité et du contrôle d\'accès par rôle', 'Optimisation des requêtes SQL et de l\'architecture API Platform', 'Tests automatisés (PHPUnit, Cypress) et documentation technique'],
+    role: 'Chef de projet & Développeur Symfony',
+    duration: 'Sept. 2025 – Avril 2026',
+    links: []
+  },
+  {
     id: 0,
     icon: 'fa-solid fa-people-arrows',
     name: "Entour'âge",
-    bg: 'linear-gradient(135deg,#2a0838,#8b1a4a)',
+    bg:      'linear-gradient(135deg,#2a0838,#8b1a4a)',
     bgNight: 'linear-gradient(135deg,#07122b,#0d3060)',
-    tags: ['Python', 'Flask', 'HTML', 'CSS'],
-    desc: 'Application Web complète avec backend Python/Flask et frontend HTML/CSS.',
-    details: "Dans le cadre de ma formation au Département Informatique de l'IUT2 (UGA), j'ai participé au développement d'une application Web nommée Entour'âge. J'ai travaillé sur la conception de l'architecture serveur en utilisant le framework Python Flask, ainsi que sur l'intégration de l'interface utilisateur en HTML et CSS pour offrir une navigation fluide.",
-    features: ['Développement backend Python (Flask)', 'Intégration frontend (HTML/CSS)', 'Architecture MVC', 'Gestion du routage et des requêtes Web'],
-    role: 'Développeur Full-stack',
+    bgDay:   'linear-gradient(135deg,#0077cc,#38bdf8)',
+    tags: ['JavaScript', 'HTML/CSS', 'Flask', 'MariaDB'],
+    desc: 'Coordination du suivi quotidien de personnes dépendantes entre aidants, aides à domicile et médecins.',
+    details: "Entour'âge est une application Web de coordination entre aidants, aides à domicile et médecins pour le suivi quotidien de personnes dépendantes. Elle centralise la gestion des rendez-vous, la communication entre les différents acteurs du soin et le suivi médical et administratif, au sein d'une interface claire et accessible à tous les profils d'utilisateurs. Je me suis principalement concentré sur le frontend : intégration HTML/CSS/JavaScript et responsive design pour offrir une navigation fluide à tous les profils d'utilisateurs, en lien avec le backend Python/Flask et la base de données MariaDB.",
+    features: ['Intégration frontend HTML/CSS/JavaScript', 'Interface responsive accessible à tous les profils', 'Gestion des rendez-vous et communication aidants/médecins', 'Liaison avec le backend Python/Flask et MariaDB'],
+    role: 'Développeur Front-end',
     duration: '2025 – 2026',
-    links: [{ label: 'GitHub', url: '#', type: 'primary' }]
+    links: [{ label: 'Voir le site', url: 'https://nicolasgraver.alwaysdata.net/auth/login', type: 'primary' }]
   },
   {
     id: 1,
     icon: 'fa-solid fa-database',
     name: 'Projet Marianne',
-    bg: 'linear-gradient(135deg,#1a0a3a,#5b2d8c)',
+    bg:      'linear-gradient(135deg,#1a0a3a,#5b2d8c)',
     bgNight: 'linear-gradient(135deg,#071235,#1a0a4a)',
+    bgDay:   'linear-gradient(135deg,#1565c0,#0097a7)',
     tags: ['Java', 'SQL', 'GitHub'],
     desc: 'Application de gestion en Java connectée à une base de données SQL.',
     details: "Création d'une application de gestion complète. Ma mission principale a consisté à concevoir et mettre en place la liaison robuste entre l'interface graphique et la base de données relationnelle. J'ai également joué un rôle central dans l'organisation du travail d'équipe et le suivi global du projet grâce aux outils de versioning.",
     features: ['Développement logique en Java', 'Liaison Interface / Base de données SQL', 'Gestion de projet en équipe', 'Versioning et suivi sur GitHub'],
     role: 'Développeur Java',
     duration: 'Févr. – Juin 2025',
-    links: [{ label: 'GitHub', url: '#', type: 'primary' }]
+    links: []
   },
   {
     id: 2,
     icon: 'fa-solid fa-pen-nib',
     name: 'Refonte Sopra Steria',
-    bg: 'linear-gradient(135deg,#1a0830,#a02060)',
+    bg:      'linear-gradient(135deg,#1a0830,#a02060)',
     bgNight: 'linear-gradient(135deg,#0a1a20,#0a3040)',
+    bgDay:   'linear-gradient(135deg,#0288d1,#26c6da)',
     tags: ['HTML', 'CSS', 'UI/UX'],
     desc: "Refonte front-end d'un site web pour faciliter la recherche de stages.",
     details: "Projet centré sur l'amélioration de l'expérience utilisateur. J'ai réalisé la refonte complète du front-end d'un site web lié à Sopra Steria. L'objectif était de moderniser l'ergonomie visuelle et structurelle pour rendre la recherche et la consultation d'offres de stages beaucoup plus intuitives et accessibles.",
@@ -172,7 +205,15 @@ const projects = [
 ];
 
 function getThumbBg(p) {
-  return document.documentElement.dataset.theme === 'night' ? p.bgNight : p.bg;
+  /* localStorage en priorité : au moment où les cards sont créées, ThemeManager.init()
+     n'a pas encore tourné, donc dataset.theme vaut encore "sunset" (valeur HTML par
+     défaut), ce qui ignorerait le choix sauvegardé. On lit localStorage d'abord. */
+  const theme = localStorage.getItem('ll-theme')
+             || document.documentElement.dataset.theme
+             || 'sunset';
+  if (theme === 'night') return p.bgNight;
+  if (theme === 'day')   return p.bgDay;
+  return p.bg;
 }
 
 const grid = document.getElementById('projects-grid');
@@ -213,35 +254,105 @@ themeBtns.forEach(btn => {
 });
 
 
-/* ── Modal ── */
+/* ══════════════════════════════════════
+   SKIEUR WIPE — ouverture / fermeture projet
+   ══════════════════════════════════════ */
+
+const skierWipe  = document.getElementById('skier-wipe');
+const skierSvg   = document.getElementById('skier-svg');
+const projectPanel = document.getElementById('project-panel');
+const panelContent = document.getElementById('panel-content');
+
+/* Durées en ms */
+const SKIER_DURATION = 1800;  // traversée (plus lent, on voit le skieur)
+const WIPE_DELAY     = 750;   // moment où le rideau s'ouvre pendant la traversée
+
+function skierReveal(onMidpoint) {
+  /* 1 — Skieur visible, démarre hors écran à gauche */
+  skierWipe.classList.add('running');
+  skierSvg.style.transition = 'none';
+  skierSvg.style.left = '-260px';
+
+  /* 2 — Lance la traversée */
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      skierSvg.style.transition = `left ${SKIER_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+      skierSvg.style.left = 'calc(100% + 260px)';
+    });
+  });
+
+  /* 3 — À mi-parcours : rideau, puis callback */
+  skierWipe.classList.add('wipe-in');
+  setTimeout(() => {
+    onMidpoint();
+  }, WIPE_DELAY);
+
+  /* 4 — Rideau s'efface, skieur disparaît */
+  setTimeout(() => {
+    skierWipe.classList.remove('wipe-in');
+    skierWipe.classList.add('wipe-out');
+    setTimeout(() => {
+      skierWipe.classList.remove('running', 'wipe-out');
+    }, 500);
+  }, WIPE_DELAY + 120);
+}
+
+function buildPanelContent(p) {
+  panelContent.innerHTML = `
+    <div class="panel-hero">
+      <div class="panel-left">
+        <div class="panel-icon-wrap"><i class="${p.icon}"></i></div>
+        <div class="panel-title"><span>${p.name}</span></div>
+        <div class="panel-meta">${p.role} &middot; ${p.duration}</div>
+        <div class="panel-tags">${p.tags.map(t => `<span class="project-tag">${t}</span>`).join('')}</div>
+        <p class="panel-desc">${p.details}</p>
+      </div>
+      <div class="panel-aside">
+        <div class="panel-aside-item">
+          <div class="panel-aside-label">Rôle</div>
+          <div class="panel-aside-value">${p.role}</div>
+        </div>
+        <div class="panel-aside-item">
+          <div class="panel-aside-label">Durée</div>
+          <div class="panel-aside-value">${p.duration}</div>
+        </div>
+        <div class="panel-aside-item">
+          <div class="panel-aside-label">Stack</div>
+          <div class="panel-aside-value">${p.tags.join(' · ')}</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div>
+        <div class="panel-section-title">Fonctionnalités</div>
+        <ul class="panel-features">
+          ${p.features.map(f => `<li>${f}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+    <div class="panel-links">
+      ${p.links.map(l => `<a href="${l.url}" class="btn ${l.type === 'primary' ? 'btn-primary' : 'btn-ghost'}">${l.label}</a>`).join('')}
+    </div>`;
+}
+
 function openModal(p) {
-  const content = document.getElementById('modal-content');
-  content.innerHTML = `
-    <div class="modal-header">
-      <div class="modal-icon"><i class="${p.icon}"></i></div>
-      <div class="modal-title">${p.name}</div>
-      <div class="modal-meta">${p.role} · ${p.duration}</div>
-      <div class="modal-tags">${p.tags.map(t => `<span class="project-tag">${t}</span>`).join('')}</div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-section"><h4>Description</h4><p>${p.details}</p></div>
-      <div class="modal-section"><h4>Fonctionnalités</h4><ul>${p.features.map(f => `<li>${f}</li>`).join('')}</ul></div>
-    </div>
-    <div class="modal-links">${p.links.map(l => `<a href="${l.url}" class="modal-link ${l.type}">${l.label}</a>`).join('')}</div>`;
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  skierReveal(() => {
+    buildPanelContent(p);
+    projectPanel.scrollTop = 0;
+    projectPanel.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  });
 }
 
 function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
+  skierReveal(() => {
+    projectPanel.classList.remove('visible');
+    document.body.style.overflow = '';
+  });
 }
 
-document.getElementById('modal-close').addEventListener('click', closeModal);
-document.getElementById('modal-overlay').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeModal();
-});
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.getElementById('panel-close').addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && projectPanel.classList.contains('visible')) closeModal(); });
 
 
 /* ══════════════════════════════════════
