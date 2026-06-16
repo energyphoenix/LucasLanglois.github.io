@@ -331,7 +331,7 @@ function buildPanelContent(p) {
       </div>
     </div>
     <div class="panel-links">
-      ${p.links.map(l => `<a href="${l.url}" class="btn ${l.type === 'primary' ? 'btn-primary' : 'btn-ghost'}">${l.label}</a>`).join('')}
+      ${p.links.map(l => `<a href="${l.url}" target="_blank" rel="noopener noreferrer" class="btn ${l.type === 'primary' ? 'btn-primary' : 'btn-ghost'}">${l.label}</a>`).join('')}
     </div>`;
 }
 
