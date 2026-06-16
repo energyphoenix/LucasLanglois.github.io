@@ -72,7 +72,7 @@
   <div class="nav-center">
     <div id="theme-switcher" aria-label="Changer de thème">
       <button id="btn-day" class="theme-btn" title="Jour ensoleillé">
-        <i class="fa-solid fa-sun-bright"></i>
+        <i class="fa-solid fa-sun"></i>
         <span>Day</span>
       </button>
       <button id="btn-sunset" class="theme-btn active" title="Coucher de soleil">
@@ -623,11 +623,72 @@
   </div>
 </footer>
 
-<!-- ═══════ MODAL ═══════ -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal" id="modal">
-    <button class="modal-close" id="modal-close" aria-label="Fermer">✕</button>
-    <div id="modal-content"></div>
+<!-- ═══════ SKIEUR REVEAL ═══════ -->
+
+<!-- Skieur SVG animé qui traverse l'écran -->
+<div id="skier-wipe" aria-hidden="true">
+  <svg id="skier-svg" viewBox="0 0 160 220" xmlns="http://www.w3.org/2000/svg">
+    <!-- Ombre sous le skieur -->
+    <ellipse cx="80" cy="210" rx="38" ry="6" fill="rgba(0,0,0,0.18)"/>
+    <!-- Skis -->
+    <rect x="18" y="195" width="110" height="7" rx="3.5" fill="var(--accent)" opacity="0.92"/>
+    <rect x="14" y="193" width="10" height="5" rx="2.5" fill="var(--accent-alt)" opacity="0.7"/>
+    <rect x="122" y="192" width="24" height="5" rx="2.5" fill="var(--accent-alt)" opacity="0.7"/>
+    <!-- Bâtons -->
+    <line x1="38"  y1="155" x2="22"  y2="200" stroke="var(--muted)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="112" y1="155" x2="128" y2="200" stroke="var(--muted)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="22"  cy="200" r="5" fill="var(--muted)" opacity="0.6"/>
+    <circle cx="128" cy="200" r="5" fill="var(--muted)" opacity="0.6"/>
+    <!-- Jambes -->
+    <line x1="68"  y1="140" x2="55"  y2="195" stroke="var(--accent)"  stroke-width="9"  stroke-linecap="round"/>
+    <line x1="82"  y1="140" x2="95"  y2="195" stroke="var(--accent-alt)" stroke-width="9" stroke-linecap="round"/>
+    <!-- Corps -->
+    <rect x="52" y="90" width="46" height="58" rx="14" fill="var(--accent)" opacity="0.95"/>
+    <!-- Veste / rayures -->
+    <rect x="52" y="108" width="46" height="6" rx="2" fill="white" opacity="0.18"/>
+    <rect x="52" y="120" width="46" height="4" rx="2" fill="white" opacity="0.12"/>
+    <!-- Bras gauche -->
+    <line x1="54"  y1="105" x2="34"  y2="148" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"/>
+    <!-- Bras droit -->
+    <line x1="96"  y1="105" x2="116" y2="148" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"/>
+    <!-- Cou -->
+    <rect x="68" y="76" width="14" height="18" rx="5" fill="#f5d4b0"/>
+    <!-- Tête -->
+    <circle cx="75" cy="58" r="28" fill="#f5d4b0"/>
+    <!-- Casque -->
+    <path d="M48,54 Q48,24 75,24 Q102,24 102,54 Z" fill="var(--accent)" opacity="0.95"/>
+    <rect x="46" y="52" width="58" height="8" rx="4" fill="var(--accent-alt)" opacity="0.85"/>
+    <!-- Visière -->
+    <path d="M50,58 Q52,72 75,74 Q98,72 100,58 Z" fill="var(--accent)" opacity="0.4"/>
+    <!-- Lunettes de ski -->
+    <ellipse cx="62" cy="64" rx="14" ry="10" fill="var(--accent-alt)" opacity="0.75"/>
+    <ellipse cx="88" cy="64" rx="14" ry="10" fill="var(--accent-alt)" opacity="0.75"/>
+    <rect x="74" y="62" width="4" height="4" rx="2" fill="var(--accent)" opacity="0.5"/>
+    <ellipse cx="62" cy="63" rx="10" ry="7" fill="rgba(255,255,255,0.2)"/>
+    <ellipse cx="88" cy="63" rx="10" ry="7" fill="rgba(255,255,255,0.2)"/>
+    <!-- Sourire -->
+    <path d="M68,76 Q75,82 82,76" stroke="#c08060" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Traces de neige / poudreuse -->
+    <g opacity="0.55">
+      <circle cx="30"  cy="205" r="5"  fill="white"/>
+      <circle cx="18"  cy="198" r="3.5" fill="white"/>
+      <circle cx="40"  cy="212" r="4"  fill="white"/>
+      <circle cx="110" cy="202" r="5.5" fill="white"/>
+      <circle cx="128" cy="196" r="3"  fill="white"/>
+      <circle cx="120" cy="210" r="4"  fill="white"/>
+      <circle cx="55"  cy="215" r="3.5" fill="white"/>
+      <circle cx="95"  cy="215" r="3.5" fill="white"/>
+    </g>
+  </svg>
+</div>
+
+<!-- Panneau projet plein écran -->
+<div id="project-panel" role="dialog" aria-modal="true">
+  <div id="project-panel-inner">
+    <button id="panel-close" aria-label="Fermer">
+      <i class="fa-solid fa-person-skiing"></i> Reprendre la descente
+    </button>
+    <div id="panel-content"></div>
   </div>
 </div>
 
