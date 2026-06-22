@@ -151,10 +151,10 @@ const projects = [
     bgDay:   'linear-gradient(135deg,#00838f,#26c6da)',
     tags: ['PHP', 'Symfony', 'SQL', 'Docker'],
     desc: "Amélioration qualité d'une application de recherche de stages (mobile Android + back-office Symfony), pilotée en tant que chef de projet.",
-    details: "Projet réalisé en groupe de 6 dans le cadre de la SAE 4.01, visant à améliorer la qualité et l'optimisation d'une application existante de recherche de stages, composée d'une application mobile Android pour les étudiants et d'un back-office Web Symfony pour l'administration. En tant que chef de projet, j'ai assuré la coordination de l'équipe et le suivi global de l'avancement, tout en travaillant principalement sur l'application Web Symfony : renforcement de la sécurité (authentification, contrôle d'accès par rôle, rate limiting), alignement aux règles métier, optimisation des requêtes SQL et de l'architecture API Platform, ainsi que la mise en place de tests automatisés et de la documentation technique.",
+    details: "Projet réalisé en groupe de 6 dans le cadre d'un projet académique, visant à améliorer la qualité et l'optimisation d'une application existante de recherche de stages, composée d'une application mobile Android pour les étudiants et d'un back-office Web Symfony pour l'administration. En tant que chef de projet, j'ai assuré la coordination de l'équipe et le suivi global de l'avancement, tout en travaillant principalement sur l'application Web Symfony : renforcement de la sécurité (authentification, contrôle d'accès par rôle, rate limiting), alignement aux règles métier, optimisation des requêtes SQL et de l'architecture API Platform, ainsi que la mise en place de tests automatisés et de la documentation technique.",
     features: ['Pilotage de projet (planning, coordination, suivi d\'équipe)', 'Renforcement de la sécurité et du contrôle d\'accès par rôle', 'Optimisation des requêtes SQL et de l\'architecture API Platform', 'Tests automatisés (PHPUnit, Cypress) et documentation technique'],
     role: 'Chef de projet & Développeur Symfony',
-    duration: 'Sept. 2025 – Avril 2026',
+    duration: 'Mars. 2026 – Avril 2026',
     links: []
   },
   {
