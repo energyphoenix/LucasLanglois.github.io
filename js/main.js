@@ -353,6 +353,7 @@ function closeModal() {
 
 document.getElementById('panel-close').addEventListener('click', closeModal);
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && projectPanel.classList.contains('visible')) closeModal(); });
+projectPanel.addEventListener('click', e => { if (e.target === projectPanel) closeModal(); });
 
 
 /* ══════════════════════════════════════
