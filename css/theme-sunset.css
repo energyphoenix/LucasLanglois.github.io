@@ -7,9 +7,9 @@
 
   /* Couleurs clés */
   --bg-body:            #0f0519;
-  --text:               #f5e6ff;
-  --muted:              rgba(245,230,255,0.55);
-  --muted-strong:       rgba(245,230,255,0.35);
+  --text:               #c8a8e8;
+  --muted:              rgba(180,140,220,0.75);
+  --muted-strong:       rgba(160,120,200,0.55);
   --accent:             #ff6b35;
   --accent-alt:         #e8347a;
 
