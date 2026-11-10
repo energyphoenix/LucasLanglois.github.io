@@ -7,10 +7,10 @@
 
   /* Couleurs clés */
   --bg-body:            #07122b;
-  --text:               #f0f4ff;
-  --muted:              rgba(200,222,255,0.6);
-  --muted-strong:       rgba(200,222,255,0.35);
-  --accent:             #00c6ff;
+  --text:               #ffffff;
+  --muted:              rgba(225,238,255,0.88);
+  --muted-strong:       rgba(210,228,255,0.68);
+  --accent:             #33d3ff;
   --accent-alt:         #4db8ff;
 
   /* Gradients */
@@ -24,19 +24,19 @@
   --footer-bg:          linear-gradient(to bottom, transparent, rgba(4,12,30,0.7));
 
   /* Navbar */
-  --nav-link:           rgba(200,222,255,0.6);
-  --text-highlight:     #c8deff;
+  --nav-link:           rgba(225,238,255,0.85);
+  --text-highlight:     #ffffff;
 
   /* Eyebrow hero */
   --eyebrow-border:     rgba(0,198,255,0.3);
-  --eyebrow-color:      #00c6ff;
+  --eyebrow-color:      #5ddcff;
   --eyebrow-bg:         rgba(0,198,255,0.08);
 
   /* Buttons */
   --btn-primary-shadow:       rgba(0,198,255,0.3);
   --btn-primary-shadow-hover: rgba(0,198,255,0.5);
   --btn-ghost-border:         rgba(200,222,255,0.25);
-  --btn-ghost-text:           #c8deff;
+  --btn-ghost-text:           #e6f0ff;
   --scroll-line:              linear-gradient(90deg, rgba(0,198,255,0.5), transparent);
 
   /* Cards */
@@ -79,8 +79,8 @@
   --switcher-bg:        rgba(7,18,43,0.85);
   --switcher-border:    rgba(0,198,255,0.2);
   --switcher-shadow:    rgba(0,198,255,0.12);
-  --switcher-muted:     rgba(200,222,255,0.4);
-  --switcher-hover:     #c8deff;
+  --switcher-muted:     rgba(210,228,255,0.65);
+  --switcher-hover:     #ffffff;
   --switcher-active-bg:     linear-gradient(135deg, #00c6ff, #4db8ff);
   --switcher-active-text:   #07122b;
   --switcher-active-shadow: rgba(0,198,255,0.35);

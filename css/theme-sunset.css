@@ -7,10 +7,10 @@
 
   /* Couleurs clés */
   --bg-body:            #0f0519;
-  --text:               #c8a8e8;
-  --muted:              rgba(180,140,220,0.75);
-  --muted-strong:       rgba(160,120,200,0.55);
-  --accent:             #ff6b35;
+  --text:               #fff6ee;
+  --muted:              rgba(255,240,235,0.9);
+  --muted-strong:       rgba(255,225,230,0.72);
+  --accent:             #ff8a5c;
   --accent-alt:         #e8347a;
 
   /* Gradients */
@@ -24,19 +24,19 @@
   --footer-bg:          linear-gradient(to bottom, transparent, rgba(10,2,20,0.7));
 
   /* Navbar */
-  --nav-link:           rgba(245,230,255,0.6);
-  --text-highlight:     #ffd59e;
+  --nav-link:           rgba(255,244,236,0.88);
+  --text-highlight:     #ffe2b8;
 
   /* Eyebrow hero */
   --eyebrow-border:     rgba(232,52,122,0.35);
-  --eyebrow-color:      #e8347a;
+  --eyebrow-color:      #ffb48f;
   --eyebrow-bg:         rgba(232,52,122,0.08);
 
   /* Buttons */
   --btn-primary-shadow:       rgba(255,107,53,0.35);
   --btn-primary-shadow-hover: rgba(255,107,53,0.55);
   --btn-ghost-border:         rgba(255,180,200,0.3);
-  --btn-ghost-text:           #ffe4f0;
+  --btn-ghost-text:           #fff0f6;
   --scroll-line:              linear-gradient(90deg, rgba(255,107,53,0.5), transparent);
 
   /* Cards */
@@ -49,7 +49,7 @@
 
   /* Status / badge */
   --badge-bg:           rgba(255,107,53,0.12);
-  --badge-text:         #ffd59e;
+  --badge-text:         #ffe2b8;
   --badge-border:       rgba(255,107,53,0.25);
 
   /* Tags */
@@ -79,8 +79,8 @@
   --switcher-bg:        rgba(15,5,25,0.75);
   --switcher-border:    rgba(255,107,53,0.2);
   --switcher-shadow:    rgba(255,107,53,0.15);
-  --switcher-muted:     rgba(245,230,255,0.4);
-  --switcher-hover:     #ffd59e;
+  --switcher-muted:     rgba(255,240,235,0.7);
+  --switcher-hover:     #ffe2b8;
   --switcher-active-bg:     linear-gradient(135deg, #ff6b35, #e8347a);
   --switcher-active-text:   #fff;
   --switcher-active-shadow: rgba(255,107,53,0.4);
